@@ -3,6 +3,7 @@
     align-items: center;
     display: flex;
     height: 100vh;
+    background: linear-gradient(360deg, #1C1C1C, #3498db);
 }
 
 .Adminsubmain {
@@ -10,38 +11,69 @@
     justify-content: center;
     align-items: center;
 }
+.AdminTitle h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+.AdminTitle img{
+    width: 120px;
+    height: 120px;
+    
+}
 
 .Adminsubmain form {
-    border: 1px solid black;
+    box-shadow: 0px 4px 10px rgba(232, 232, 238, 0.3); 
     height: 400px;
     width: 600px;
-    background-color: rgb(26, 91, 148);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items:center;
+    gap: 20px;
+    border-radius: 8px;
+}
+
+.inputfield{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* Added padding for better spacing */
-    border-radius: 8px; /* Rounded corners */
-}
 
-.Adminsubmain form input {
-    margin: 10px 0; /* Spacing between inputs */
+}
+.inputfield input {
+    margin: 10px 0; 
     padding: 10px;
-    width: 100%; /* Make inputs take full width */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners for inputs */
+    width: 100%;
+    border: 2px solid black; 
+    border-radius: 4px;
+    animation: inputAnimation 3s infinite;
+    width: 300px;
+}
+@keyframes inputAnimation{
+
+    0% {
+        border-color: rgb(92, 89, 89);
+      }
+      50% {
+        border-color: #4e00b4;
+      }
+      100% {
+        border-color: rgb(163, 7, 103);
+      }
 }
 
-.Adminsubmain form button {
-    padding: 10px 20px; /* Adjust button size */
-    border: none; /* Remove default border */
-    border-radius: 4px; /* Rounded corners for button */
-    background-color: white; /* Button background color */
-    color: rgb(26, 91, 148); /* Button text color */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth background change */
+.inputfield button {
+    padding: 10px 20px;
+    border: none; 
+    border-radius: 4px; 
+    color: rgb(255, 255, 255); 
+    cursor: pointer; 
+    background-color: #3498db;
+    width: 300px;
+    transition: background-color 0.7s ease;
 }
 
-.Adminsubmain form button:hover {
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly change background on hover */
+.inputfield button:hover{
+    background-color: #035e9b;
 }

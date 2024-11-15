@@ -1,62 +1,57 @@
-/* Main dashboard container */
 .mainDashboard {
     display: flex;
     height: 100vh;
-    background-color: #121212;
+    background-color: #241c44;
     color: #e0e0e0;
   }
-  .logoicon{
-    width: 100px;
-    height: 100px;
-  }
-  
-  /* Sidebar styling */
-  .sider {
+    
+  .sider {    
     width: 250px;
-    background-color: #1f1f1f;
+    background-color: #6a2ca7;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center;
-    border-radius: 30px;
+    align-items: start;
+    border-radius: 20px;   
+    
   }
   
-  /* Title section styling */
-  .Title {
+  .DTitle{
     display: flex;
-    align-items: center;
     gap: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+    align-items: center;
   }
-  
-  /* Sidebar options */
+  .DTitle p{
+    font-size: 18px;
+    font-weight: 700;
+  }
   .option {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content:left;
+    gap: 15px;
     padding: 10px;
     color: #e0e0e0;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     position: relative;
     border-radius: 8px;
     transition: background 0.3s ease;
+    width: 200px;
   }
   
   .option img {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
   }
   
-  /* Hover effect for options */
+  
   .option:hover {
     background-color: #333333;
   }
   
-  /* Dropdown menu styling */
+ 
   .dropdown-content {
     display: none;
     position: absolute;
@@ -70,7 +65,7 @@
     z-index: 1;
   }
   
-  /* Dropdown menu items */
+  
   .dropdown-content p {
     color: #e0e0e0;
     font-size: 16px;
@@ -81,12 +76,12 @@
     cursor: pointer;
   }
   
-  /* Hover effect for dropdown items */
+  
   .dropdown-content p:hover {
-    background-color: #444444;
+    background-color: #280588;
   }
   
-  /* Show dropdown on hover */
+ 
   .option:hover .dropdown-content {
     display: block;
   }

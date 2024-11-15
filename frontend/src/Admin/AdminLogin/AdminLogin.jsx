@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import './AdminLogin.css';
+import adminImage from '../AdminAssets/admin.png';
 
 const AdminLogin = () => {
     const [user, setUser] = useState("");
@@ -29,7 +30,7 @@ const AdminLogin = () => {
 
             if (response.data && response.data.message === "Login successful") {
                 alert("Login successful!");
-                navigate('/dashboard'); 
+                navigate('/AdminDashboard'); 
             } else {
                 alert("Invalid credentials");
             }
@@ -44,8 +45,13 @@ const AdminLogin = () => {
     return (
         <div className='Adminmain'>
             <div className="Adminsubmain">
-                <form onSubmit={handleLogin}>
-                    <h1>Admin Login</h1>
+                
+                <form onSubmit={handleLogin}>  
+                <div className='AdminTitle'>
+                    <img src={adminImage} alt="" />
+                    <h1 >Admin Login</h1>                    
+                </div>                  
+                    <div className="inputfield">
                     <input 
                         type="text"
                         name='user'
@@ -65,6 +71,7 @@ const AdminLogin = () => {
                     <button type='submit' disabled={loading}>
                         {loading ? "Logging in..." : "LOGIN"}
                     </button>
+                    </div>
                 </form>
             </div>
         </div>

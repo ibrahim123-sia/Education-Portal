@@ -1,21 +1,27 @@
 import React from 'react';
 import './Admindashboard.css';
 import homeicon from '../AdminAssets/homeicon.png'
-import Logoicon from '../AdminAssets/Logo.png'
+import logo from '../AdminAssets/logo.png'
 import addmisionicon from '../AdminAssets/addmisionicon.png'
 import studenticon from '../AdminAssets/student.png'
 import teachericon from '../AdminAssets/teacher.png'
 import annoucement from '../AdminAssets/annoucement.png'
 
 const Admindashboard = () => {
+
+  
+
+
+
+
   return (
     <div className="mainDashboard">
       <div className="sider">
-        <div className="Title">
-          <img src={Logoicon} alt="Logo" className='logoicon' />
-          <p>FSS</p>
-        </div>
         
+        <div className="DTitle">
+          <img src={logo} alt="" />
+          <p>Education System</p>
+        </div>
         <div className="option Home">
           <img src={homeicon} alt="Home Icon" />
           <p>Home</p>
@@ -23,11 +29,7 @@ const Admindashboard = () => {
 
         <div className="option New-Addmision">
           <img src={addmisionicon} alt="Admission Icon" />
-          <p>Admission</p>
-          <div className="dropdown-content">
-            <p>Add New Student</p>
-            <p>View Applications</p>
-          </div>
+          <p>Admission</p>          
         </div>
 
         <div className="option Student">
