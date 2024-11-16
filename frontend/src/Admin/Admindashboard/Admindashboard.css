@@ -16,6 +16,16 @@
     border-radius: 20px;   
     
   }
+  .link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .link img {
+    margin-right: 12px;
+  }
   
   .DTitle{
     display: flex;

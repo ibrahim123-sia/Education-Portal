@@ -1,23 +1,17 @@
-import React from 'react';
-import './Admindashboard.css';
-import homeicon from '../AdminAssets/homeicon.png'
-import logo from '../AdminAssets/logo.png'
-import addmisionicon from '../AdminAssets/addmisionicon.png'
-import studenticon from '../AdminAssets/student.png'
-import teachericon from '../AdminAssets/teacher.png'
-import annoucement from '../AdminAssets/annoucement.png'
+import React from "react";
+import "./Admindashboard.css";
+import homeicon from "../AdminAssets/homeicon.png";
+import logo from "../AdminAssets/logo.png";
+import addmisionicon from "../AdminAssets/addmisionicon.png";
+import studenticon from "../AdminAssets/student.png";
+import teachericon from "../AdminAssets/teacher.png";
+import annoucement from "../AdminAssets/annoucement.png";
+import { Link } from "react-router-dom";
 
 const Admindashboard = () => {
-
-  
-
-
-
-
   return (
     <div className="mainDashboard">
       <div className="sider">
-        
         <div className="DTitle">
           <img src={logo} alt="" />
           <p>Education System</p>
@@ -28,8 +22,10 @@ const Admindashboard = () => {
         </div>
 
         <div className="option New-Addmision">
-          <img src={addmisionicon} alt="Admission Icon" />
-          <p>Admission</p>          
+          <Link to="/Admission" className="link">
+            <img src={addmisionicon} alt="Admission Icon" />
+            <p>Admission</p>
+          </Link>
         </div>
 
         <div className="option Student">
