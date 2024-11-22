@@ -10,7 +10,7 @@ const SelectUser = () => {
     <div className="main">
       <div className="submain">
         <div className="student">
-          <Link to='/AdminLogin'><div className="inner-student">
+          <Link to='/AdminLogin' className="Link"><div className="inner-student">
             <div className="Image"><img src={adminImage} alt="Student" /></div>
             <h3>Admin Portal</h3>
           </div></Link>
