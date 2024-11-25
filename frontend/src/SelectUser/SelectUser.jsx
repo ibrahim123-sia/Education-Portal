@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const SelectUser = () => {
   return (
-    <div className="main">
+    <div className="mainS">
       <div className="submain">
         <div className="student">
           <Link to='/AdminLogin' className="Link"><div className="inner-student">

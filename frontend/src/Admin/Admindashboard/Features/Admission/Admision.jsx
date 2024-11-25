@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Admission.css';
 import axios from 'axios';
+import Navbar from '../../../Navbar/Navbar';
 
 const Admission = () => {
   const [StudentID, setStudentID] = useState('');
@@ -130,7 +131,9 @@ const Admission = () => {
   };
 
   return (
+    
     <div className="StudentRegistration">
+      <Navbar/>
   <div className="Form">
     <form onSubmit={handleSubmit}>
       <h1 className="std">Student Registration</h1>

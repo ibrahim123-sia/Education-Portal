@@ -1,8 +1,13 @@
 .StudentRegistration {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 50px;
-  }
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px; 
+  align-items: center;
+  justify-content: center;
+  background: rgb(0, 0, 36);
+  padding-bottom: 100px;
+}
+
   
   .input-container {
     display: flex;
@@ -11,13 +16,14 @@
   }
   
   .Form {
+    margin-top: 15px; 
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    width: 400px;
+    width: 600px;
   }
   
   .poster {

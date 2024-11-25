@@ -13,6 +13,11 @@ import { useContext } from "react";
 import adminicon from "../AdminAssets/admin.png";
 import settingiocn from "../AdminAssets/setting.png";
 import axios from "axios";
+import facebook from "../AdminAssets/facebook.png";
+import instagram from "../AdminAssets/instagram.png";
+import whatsapp from "../AdminAssets/whatsapp.png";
+
+
 const Admindashboard = () => {
   const [TotalStd, setTotalStd] = useState(0);
   const { username } = useContext(Context);
@@ -56,7 +61,7 @@ const Admindashboard = () => {
 
           <div className="dropdown-content">
             <p>Fee Collection</p>
-            <p>Check Attendence</p>
+            <p>View Attendence</p>
             <p>View Students</p>
           </div>
         </div>
@@ -66,8 +71,8 @@ const Admindashboard = () => {
           <p>Faculty</p>
           <div className="dropdown-content">
             <p>View Faculty</p>
-            <p>Add New Faculty</p>
-            <p>Attendences</p>
+           <Link to='/AddFaculty'> <p>Add New Faculty</p></Link>
+            <p>Mark Attendences</p>
           </div>
         </div>
 
@@ -83,7 +88,7 @@ const Admindashboard = () => {
       </div>
 
       <div className="Dashboard-content">
-        <div className="navbar">
+        <div className="navbarD">
           <div class="search-container">
             <img src={searchicon} alt="" className="search-icon" />
             <input type="text" placeholder="Search" class="search-input" />
@@ -121,7 +126,35 @@ const Admindashboard = () => {
             <div className="absent"></div>
           </div>
         </div>
+        <div className="DFooter">
+      <div className="Dfooter-logo">
+        <img src={logo} alt="" />
+        
       </div>
+      <ul className='Dfooter-links'>
+        <li>Company</li>
+        <li>Products</li>
+        <li>Offices</li>
+        <li>About</li>
+        <li>Contact</li>
+      </ul>
+      <div className="Dfooter-social-icon">
+        <div className="Dfooter-icon-container">
+            <img src={whatsapp} alt="" />
+        </div>
+        <div className="Dfooter-icon-container">
+            <img src={facebook} alt="" />
+        </div>
+        <div className="Dfooter-icon-container">
+            <img src={instagram} alt="" />
+        </div>
+      </div>
+      <div className="Dfooter-copy-right">
+        <hr />
+        <p>Copyright @ 2024 - All Right Reserved.</p>
+      </div>
+      </div>
+      </div>      
     </div>
   );
 };
