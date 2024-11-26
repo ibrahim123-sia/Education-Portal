@@ -21,6 +21,7 @@ const AddFaculty = () => {
   const [DateCompleted, setDateCompleted] = useState('');
   const [SubjectID, setSubjectID] = useState('');
   const [SubjectName, setSubjectName] = useState('');
+  const [TeacherCount, setTeacherCount] = useState(1);
 
   const provinces = ['Punjab', 'Sindh', 'Khyber Pakhtunkhwa', 'Balochistan', 'Gilgit-Baltistan', 'Azad Jammu and Kashmir'];
   const cities = {
@@ -130,10 +131,10 @@ const AddFaculty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const uniqueNumber = Math.floor(Math.random() * 1000);
-    const generatedID = `T${uniqueNumber.toString().padStart(3, '0')}${SubjectID}`;
-
+    const uniqueNumber = TeacherCount.toString().padStart(3,'0');
+    const generatedID = `T${uniqueNumber}${SubjectID}`;
     setTeacherID(generatedID);
+    setTeacherCount(TeacherCount+1);
 
     try {
       const response = await axios.post('http://localhost:5000/AddFaculty', {
@@ -156,7 +157,7 @@ const AddFaculty = () => {
         SubjectID,
         SubjectName,
       });
-      alert('Done')
+      alert('Faculty Add Successfully')
       console.log(response.data);
     } catch (error) {
       console.error('Error during form submission:', error);

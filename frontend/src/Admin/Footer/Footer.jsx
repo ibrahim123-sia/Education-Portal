@@ -7,33 +7,23 @@ import instagram from "./instagram.png";
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <div className="footer-logo">
-        <img src={footer_logo} alt="" />
-      </div>
-      <ul className="footer-links">
-        <li>Company</li>
-        <li>Products</li>
-        <li>Offices</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-      <div className="footer-social-icon">
-        <div className="footer-icon-container">
-          <img src={whatsapp} alt="" />
-        </div>
-        <div className="footer-icon-container">
-          <img src={facebook} alt="" />
-        </div>
-        <div className="footer-icon-container">
-          <img src={instagram} alt="" />
-        </div>
-      </div>
-      <div className="footer-copy-right">
-        <hr />
-        <p>Copyright @ 2024 - All Right Reserved.</p>
-      </div>
-    </div>
+    <footer class="admin-footer">
+  <div class="footer-left">
+    <p>© 2024 School Management System. All rights reserved.</p>
+  </div>
+  <div class="footer-center">
+    <p>Last Updated: November 20, 2024 | Portal Version: 1.0.0</p>
+  </div>
+  <div class="footer-right">
+    <p>
+      <a href="/dashboard">Dashboard</a> | 
+ |    <a href="/settings">Settings</a> | 
+      <a href="/reports">Reports</a>
+    </p>
+    <p>Need help? <a href="mailto:it.support@schoolportal.com">Contact Support</a></p>
+  </div>
+</footer>
+
   );
 };
 

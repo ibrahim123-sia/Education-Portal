@@ -13,9 +13,6 @@ import { useContext } from "react";
 import adminicon from "../AdminAssets/admin.png";
 import settingiocn from "../AdminAssets/setting.png";
 import axios from "axios";
-import facebook from "../AdminAssets/facebook.png";
-import instagram from "../AdminAssets/instagram.png";
-import whatsapp from "../AdminAssets/whatsapp.png";
 
 
 const Admindashboard = () => {
@@ -71,19 +68,22 @@ const Admindashboard = () => {
           <p>Faculty</p>
           <div className="dropdown-content">
             <p>View Faculty</p>
-           <Link to='/AddFaculty'> <p>Add New Faculty</p></Link>
+            <Link to="/AddFaculty">
+              {" "}
+              <p>Add New Faculty</p>
+            </Link>
             <p>Mark Attendences</p>
           </div>
         </div>
 
         <div className="option Annoucement">
           <img src={annoucement} alt="Announcement Icon" />
-          <p>Announcement</p>          
+          <p>Announcement</p>
         </div>
 
         <div className="option setting">
           <img src={settingiocn} alt="" />
-          <p>Settings</p>          
+          <p>Settings</p>
         </div>
       </div>
 
@@ -111,14 +111,22 @@ const Admindashboard = () => {
         <div className="Feature">
           <div className="count1">
             <div className="f student">
-              <p>Total Student</p>
+              <h2>Total Registered </h2>
+              <p>students</p>
               <h1>{TotalStd}</h1>
             </div>
             <div className="f fee">
-              <p>Total Fee Collection</p>
+              <h2>Fee Collection</h2>
+              <p>for this month</p>
             </div>
-            <div className="f sabsent"></div>
-            <div className="f fabsent"></div>
+            <div className="f sabsent">
+              <h2>No Of Student</h2>
+              <p>absent today</p>
+            </div>
+            <div className="f fabsent">
+              <h2>No Of Faculty</h2>
+              <p>absent today</p>
+            </div>
           </div>
           <div className="graph">
             <div className="std"></div>
@@ -127,34 +135,24 @@ const Admindashboard = () => {
           </div>
         </div>
         <div className="DFooter">
-      <div className="Dfooter-logo">
-        <img src={logo} alt="" />
-        
-      </div>
-      <ul className='Dfooter-links'>
-        <li>Company</li>
-        <li>Products</li>
-        <li>Offices</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-      <div className="Dfooter-social-icon">
-        <div className="Dfooter-icon-container">
-            <img src={whatsapp} alt="" />
-        </div>
-        <div className="Dfooter-icon-container">
-            <img src={facebook} alt="" />
-        </div>
-        <div className="Dfooter-icon-container">
-            <img src={instagram} alt="" />
+          <div class="footer-left">
+            <p>© 2024 School Management System. All rights reserved.</p>
+          </div>
+          <div class="footer-center">
+            <p>Last Updated: November 20, 2024 | Portal Version: 1.0.0</p>
+          </div>
+          <div class="footer-right">
+            <p>
+              <a href="/dashboard">Dashboard</a> |            
+              <a href="/settings">Settings</a> |<a href="/reports">Reports</a>
+            </p>
+            <p>
+              Need help?{" "}
+              <a href="mailto:it.support@schoolportal.com">Contact Support</a>
+            </p>
+          </div>
         </div>
       </div>
-      <div className="Dfooter-copy-right">
-        <hr />
-        <p>Copyright @ 2024 - All Right Reserved.</p>
-      </div>
-      </div>
-      </div>      
     </div>
   );
 };
