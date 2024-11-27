@@ -1,11 +1,12 @@
 const express = require('express');
 const sql = require('mssql');
 const cors = require('cors');
-
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 const PORT = 5000;
 
 
@@ -32,97 +33,29 @@ const config = {
 })();
 
 
-app.post('/Admission', async (req, res) => {
-  const {
-      StudentID,
-      FirstName,
-      LastName,
-      Age,
-      Gender,
-      Email,
-      Phone,
-      DOB,
-      PhotoPath,
-      HouseNo,
-      Street,
-      City,
-      GuardianName,
-      GuardianContact,
-      Relationship,
-      DateOfAdmission,
-      Class,
-      Section,
-  } = req.body;
+app.get('/GetStudentRecord',async (req,res)=>{
 
-  let transaction;
 
-  try {
-      const pool = await sql.connect(config);
-      console.log('Connected to the database');
+  try{
+    const request = new sql.Request();
 
-      transaction = new sql.Transaction(pool);
-      await transaction.begin();
+    const StudentQuery = "SELECT StudentID, FirstName, LastName, Age, Gender, Email, Phone, DOB,Photo FROM Students";
+    const StudentQueryResult = await request.query(StudentQuery);
 
-      
-      const studentRequest = new sql.Request(transaction);
-      studentRequest.input('StudentID', sql.VarChar, StudentID);
-      studentRequest.input('FirstName', sql.VarChar, FirstName);
-      studentRequest.input('LastName', sql.VarChar, LastName);
-      studentRequest.input('Age', sql.Int, Age);
-      studentRequest.input('Gender', sql.VarChar, Gender);
-      studentRequest.input('Email', sql.VarChar, Email);
-      studentRequest.input('Phone', sql.VarChar, Phone);
-      studentRequest.input('DOB', sql.Date, DOB);
-      studentRequest.input('PhotoPath', sql.VarChar, PhotoPath);
-      await studentRequest.query(`
-          INSERT INTO Students (StudentID, FirstName, LastName, Age, Gender, Email, Phone, DOB, PhotoPath)
-          VALUES (@StudentID, @FirstName, @LastName, @Age, @Gender, @Email, @Phone, @DOB, @PhotoPath)
-      `);
+    const FeeQuery="select StudentID,TotalFee,PaidAmount,RemainingBalance,PaymentDate,PaymentStatus from TuitionFee"
+    const FeeQueryResult=await request.query(FeeQuery);
 
-      console.log('Inserting into Addresses table...');
-      const addressRequest = new sql.Request(transaction);
-      addressRequest.input('StudentID', sql.VarChar, StudentID);
-      addressRequest.input('HouseNo', sql.VarChar, HouseNo);
-      addressRequest.input('Street', sql.VarChar, Street);
-      addressRequest.input('City', sql.VarChar, City);
-      await addressRequest.query(`
-          INSERT INTO Addresses (StudentID, HouseNo, Street, City)
-          VALUES (@StudentID, @HouseNo, @Street, @City)
-      `);
+    const students = StudentQueryResult.recordset || [];
+    const fee=FeeQueryResult.recordset || [];
+    res.status(200).send({students,fee})    
 
-      
-      const guardianRequest = new sql.Request(transaction);
-      guardianRequest.input('StudentID', sql.VarChar, StudentID);
-      guardianRequest.input('GuardianName', sql.VarChar, GuardianName);
-      guardianRequest.input('GuardianContact', sql.VarChar, GuardianContact);
-      guardianRequest.input('Relationship', sql.VarChar, Relationship);
-      await guardianRequest.query(`
-          INSERT INTO Guardians (StudentID, GuardianName, GuardianContact, Relationship)
-          VALUES (@StudentID, @GuardianName, @GuardianContact, @Relationship)
-      `);
-
-      
-      const admissionRequest = new sql.Request(transaction);
-      admissionRequest.input('StudentID', sql.VarChar, StudentID);
-      admissionRequest.input('DateOfAdmission', sql.Date, DateOfAdmission);
-      admissionRequest.input('Class', sql.VarChar, Class);
-      admissionRequest.input('Section', sql.VarChar, Section);
-      await admissionRequest.query(`
-          INSERT INTO Admissions (StudentID, DateOfAdmission, Class, Section)
-          VALUES (@StudentID, @DateOfAdmission, @Class, @Section)
-      `);
-
-      await transaction.commit();
-      res.status(200).send('Admission record added successfully.');
-  } catch (error) {
-      if (transaction) await transaction.rollback();
-      console.error('Error adding admission record:', error);
-      res.status(500).send({
-          message: 'Error adding admission record.',
-          details: error.message,
-      });
   }
-});
+  catch(error){
+    console.error('error retreving data',error)
+    res.status(500).send('Error retrieving data.');
+  }
+
+})
 
 app.post('/AddFaculty', async (req, res) => {
   const {
@@ -132,31 +65,32 @@ app.post('/AddFaculty', async (req, res) => {
     Gender,
     DOB,
     Email,
-    Phone, 
+    Phone,
     CNIC,
     City,
     State,
     PostalCode,
     AddressType,
-    HouseNo, 
+    HouseNo,
     Degree,
     Institution,
-    DateCompleted, 
+    DateCompleted,
     SubjectID,
-    SubjectName 
+    SubjectName,
+    Photo,
   } = req.body;
+
+  const photoBuffer = Photo ? Buffer.from(Photo, 'base64') : null;
 
   let transaction;
 
   try {
-    
     const pool = await sql.connect(config);
     console.log('Connected to the database');
-    
+
     transaction = new sql.Transaction(pool);
     await transaction.begin();
 
-    
     const Teacher = new sql.Request(transaction);
     Teacher.input('TeacherID', sql.VarChar, TeacherID);
     Teacher.input('FirstName', sql.VarChar, FirstName);
@@ -164,11 +98,12 @@ app.post('/AddFaculty', async (req, res) => {
     Teacher.input('Gender', sql.VarChar, Gender);
     Teacher.input('DOB', sql.Date, DOB);
     Teacher.input('Email', sql.VarChar, Email);
-    Teacher.input('Phone', sql.VarChar, Phone); 
+    Teacher.input('Phone', sql.VarChar, Phone);
     Teacher.input('CNIC', sql.VarChar, CNIC);
+    Teacher.input('Photo', sql.VarBinary, photoBuffer); 
     await Teacher.query(`
-      INSERT INTO Teachers (TeacherID, FirstName, LastName, Gender, DOB, Email, PhoneNumber, CNIC) 
-      VALUES (@TeacherID, @FirstName, @LastName, @Gender, @DOB, @Email, @Phone, @CNIC)
+      INSERT INTO Teachers (TeacherID, FirstName, LastName, Gender, DOB, Email, PhoneNumber, CNIC, Photo) 
+      VALUES (@TeacherID, @FirstName, @LastName, @Gender, @DOB, @Email, @Phone, @CNIC, @Photo)
     `);
 
     
@@ -195,6 +130,7 @@ app.post('/AddFaculty', async (req, res) => {
       VALUES (@TeacherID, @Degree, @Institution, @DateCompleted)
     `);
 
+    
     const Subject = new sql.Request(transaction);
     Subject.input('TeacherID', sql.VarChar, TeacherID);
     Subject.input('SubjectID', sql.VarChar, SubjectID);
@@ -204,12 +140,10 @@ app.post('/AddFaculty', async (req, res) => {
       VALUES (@TeacherID, @SubjectID, @SubjectName)
     `);
 
-    
     await transaction.commit();
     res.status(200).send({ message: 'Faculty added successfully' });
 
   } catch (error) {
-    
     if (transaction) {
       await transaction.rollback();
     }
@@ -219,25 +153,152 @@ app.post('/AddFaculty', async (req, res) => {
 });
 
 
+app.post('/Admission', async (req, res) => {
+  const {
+      StudentID,
+      FirstName,
+      LastName,
+      Age,
+      Gender,
+      Email,
+      Phone,
+      DOB,
+      StudentPhoto,
+      HouseNo,
+      Street,
+      City,
+      GuardianName,
+      GuardianContact,
+      Relationship,
+      DateOfAdmission,
+      Class,
+      Section,
+  } = req.body;
+
+  const sphotoBuffer = StudentPhoto ? Buffer.from(StudentPhoto, 'base64') : null;
+  let transaction;
+
+  try {
+      const pool = await sql.connect(config);
+      console.log('Connected to the database');
+
+      transaction = new sql.Transaction(pool);
+      await transaction.begin();
+
+      
+      const studentRequest = new sql.Request(transaction);
+      studentRequest.input('StudentID', sql.VarChar, StudentID);
+      studentRequest.input('FirstName', sql.VarChar, FirstName);
+      studentRequest.input('LastName', sql.VarChar, LastName);
+      studentRequest.input('Age', sql.Int, Age);
+      studentRequest.input('Gender', sql.VarChar, Gender);
+      studentRequest.input('Email', sql.VarChar, Email);
+      studentRequest.input('Phone', sql.VarChar, Phone);
+      studentRequest.input('DOB', sql.Date, DOB);
+      studentRequest.input('StudentPhoto', sql.VarBinary, sphotoBuffer);
+      await studentRequest.query(`
+          INSERT INTO Students (StudentID, FirstName, LastName, Age, Gender, Email, Phone, DOB, Photo)
+          VALUES (@StudentID, @FirstName, @LastName, @Age, @Gender, @Email, @Phone, @DOB, @StudentPhoto)`
+      );
+
+      console.log('Inserting into Addresses table...');
+      const addressRequest = new sql.Request(transaction);
+      addressRequest.input('StudentID', sql.VarChar, StudentID);
+      addressRequest.input('HouseNo', sql.VarChar, HouseNo);
+      addressRequest.input('Street', sql.VarChar, Street);
+      addressRequest.input('City', sql.VarChar, City);
+      await addressRequest.query(`
+          INSERT INTO Addresses (StudentID, HouseNo, Street, City)
+          VALUES (@StudentID, @HouseNo, @Street, @City)`
+      );
+
+      
+      const guardianRequest = new sql.Request(transaction);
+      guardianRequest.input('StudentID', sql.VarChar, StudentID);
+      guardianRequest.input('GuardianName', sql.VarChar, GuardianName);
+      guardianRequest.input('GuardianContact', sql.VarChar, GuardianContact);
+      guardianRequest.input('Relationship', sql.VarChar, Relationship);
+      await guardianRequest.query(`
+          INSERT INTO Guardians (StudentID, GuardianName, GuardianContact, Relationship)
+          VALUES (@StudentID, @GuardianName, @GuardianContact, @Relationship)`
+      );
+
+      
+      const admissionRequest = new sql.Request(transaction);
+      admissionRequest.input('StudentID', sql.VarChar, StudentID);
+      admissionRequest.input('DateOfAdmission', sql.Date, DateOfAdmission);
+      admissionRequest.input('Class', sql.VarChar, Class);
+      admissionRequest.input('Section', sql.VarChar, Section);
+      await admissionRequest.query(`
+          INSERT INTO Admissions (StudentID, DateOfAdmission, Class, Section)
+          VALUES (@StudentID, @DateOfAdmission, @Class, @Section)`
+      );
+
+      await transaction.commit();
+      res.status(200).send('Admission record added successfully.');
+  } catch (error) {
+      if (transaction) await transaction.rollback();
+      console.error('Error adding admission record:', error);
+      res.status(500).send({
+          message: 'Error adding admission record.',
+          details: error.message,
+      });
+  }
+});
+
+app.post('/FeeCollection', async (req, res) => {
+  const {
+      StudentID,
+      TotalFee,
+      PaidAmount,
+      RemainingBalance,
+      PaymentDate,
+      PaymentStatus
+  } = req.body;
+
+  try {
+      const pool = await sql.connect(config);
+      const FeeCollection = new sql.Request();
+
+      FeeCollection.input('StudentID', sql.VarChar, StudentID);
+      FeeCollection.input('TotalFee', sql.Decimal, TotalFee);
+      FeeCollection.input('PaidAmount', sql.Decimal, PaidAmount);
+      FeeCollection.input('RemainingBalance', sql.Decimal, RemainingBalance);
+      FeeCollection.input('PaymentDate', sql.VarChar, PaymentDate);
+      FeeCollection.input('PaymentStatus',sql.VarChar,PaymentStatus)
+      await FeeCollection.query(`
+          INSERT INTO TuitionFee (StudentID, TotalFee, PaidAmount, RemainingBalance, PaymentDate,PaymentStatus)
+          VALUES (@StudentID, @TotalFee, @PaidAmount, @RemainingBalance, @PaymentDate,@PaymentStatus)
+      `);
+
+      res.status(200).send({ message: 'Fee record added successfully' }); 
+  } catch (error) {
+      console.error('Error during fee addition:', error.message); 
+      res.status(500).send({ error: 'Failed to add fee', details: error.message });
+  }
+});
+
 
 app.get('/count', async (req, res) => {
   try {
     const request = new sql.Request();
-    const query = 'SELECT COUNT(StudentID) AS TotalStudents FROM StudentInfo';
-    const result = await request.query(query);
-    
-    
-    if (result.recordset && result.recordset.length > 0) {
-      const totalStudents = result.recordset[0].TotalStudents;
-      res.status(200).send({ totalStudents });
-    } else {
-      res.status(404).send({ message: 'No students found' });
-    }
+
+    const studentQuery = "select count(StudentID) AS 'TotalStudents' from Students";
+    const studentResult = await request.query(studentQuery);
+
+    const feeQuery = "SELECT SUM(PaidAmount) AS FeeCollection FROM TuitionFee WHERE PaymentStatus='Paid'";
+    const feeResult = await request.query(feeQuery);
+
+    const totalStudents = studentResult.recordset[0]?.TotalStudents || 0; 
+    const feeCollection = feeResult.recordset[0]?.FeeCollection || 0; 
+
+    res.status(200).send({ totalStudents, FeeCollection: feeCollection });
   } catch (error) {
-    console.error('Error retrieving student count:', error);
-    res.status(500).send('Error retrieving student count.');
+    console.error('Error retrieving data:', error);
+    res.status(500).send('Error retrieving data.');
   }
 });
+
 
 
 app.post('/Adminlogin', async (req, res) => {

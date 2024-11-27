@@ -22,6 +22,8 @@ const AddFaculty = () => {
   const [SubjectID, setSubjectID] = useState('');
   const [SubjectName, setSubjectName] = useState('');
   const [TeacherCount, setTeacherCount] = useState(1);
+  const [Photo,setPhoto]=useState('')
+
 
   const provinces = ['Punjab', 'Sindh', 'Khyber Pakhtunkhwa', 'Balochistan', 'Gilgit-Baltistan', 'Azad Jammu and Kashmir'];
   const cities = {
@@ -137,32 +139,46 @@ const AddFaculty = () => {
     setTeacherCount(TeacherCount+1);
 
     try {
-      const response = await axios.post('http://localhost:5000/AddFaculty', {
-        TeacherID: generatedID,
-        FirstName,
-        LastName,
-        Gender,
-        DOB,
-        Email,
-        Phone,
-        CNIC,
-        City,
-        State,
-        PostalCode,
-        AddressType,
-        HouseNo,
-        Degree,
-        Institution,
-        DateCompleted,
-        SubjectID,
-        SubjectName,
-      });
-      alert('Faculty Add Successfully')
-      console.log(response.data);
-    } catch (error) {
+      const reader = new FileReader();
+      reader.onload = async () => {
+          const base64Photo = reader.result.split(',')[1]; 
+  
+          const response = await axios.post('http://localhost:5000/AddFaculty', {
+              TeacherID: generatedID,
+              FirstName,
+              LastName,
+              Gender,
+              DOB,
+              Email,
+              Phone,
+              CNIC,
+              City,
+              State,
+              PostalCode,
+              AddressType,
+              HouseNo,
+              Degree,
+              Institution,
+              DateCompleted,
+              SubjectID,
+              SubjectName,
+              Photo: base64Photo, 
+          });
+  
+          alert('Faculty Added Successfully');
+          console.log(response.data);
+      };
+  
+      if (Photo) {
+          reader.readAsDataURL(Photo); 
+      } else {
+          alert('Please select a photo.');
+      }
+  } catch (error) {
       console.error('Error during form submission:', error);
-    }
-  };
+  }
+  
+  };  
 
   return (
     <div className="FMain">
@@ -208,6 +224,8 @@ const AddFaculty = () => {
           </select>
           <input type="text" name="Institution" required placeholder="Institution" value={Institution} onChange={(e) => setInstitution(e.target.value)} />
           <input type="date" name="DateCompleted" required placeholder="Degree Completion Date" value={DateCompleted} onChange={(e) => setDateCompleted(e.target.value)} />
+          <input type="file" accept="image/*" onChange={(e) => setPhoto(e.target.files[0])} />
+
           <button type="submit">Save Faculty</button>
         </form>
       </div>

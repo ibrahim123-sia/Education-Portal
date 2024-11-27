@@ -12,7 +12,7 @@ const Admission = () => {
   const [Email, setEmail] = useState('');
   const [Phone, setPhone] = useState('');
   const [DOB, setDOB] = useState('');  
-  const [Photo, setPhoto] = useState('');  
+  const [StudentPhoto, setStudentPhoto] = useState('');  
   const [HouseNo, setHouseNo] = useState('');
   const [Street, setStreet] = useState('');
   const [City, setCity] = useState('');
@@ -53,9 +53,6 @@ const Admission = () => {
       case 'DOB':
         setDOB(value);
         break;
-      case 'Photo':
-        setPhoto(e.target.files ? e.target.files[0] : value); 
-        break;
       case 'HouseNo':
         setHouseNo(value);
         break;
@@ -86,50 +83,60 @@ const Admission = () => {
   };
   
   const handlePhotoChange = (e) => {
-    setPhoto(e.target.files[0]);
+    setStudentPhoto(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const uniqueNumber = studentCount.toString().padStart(4, '0');
-    const generatedID = `${'C'}${Class}-${Section}-${uniqueNumber}`;
+    const generatedID = `C${Class}-${Section}-${uniqueNumber}`;
     setStudentID(generatedID);
     setStudentCount(studentCount + 1);
-
+  
     try {
-      const response = await axios.post('http://localhost:5000/Admission', {
-        StudentID: generatedID,
-        FirstName,
-        LastName,
-        Age,
-        Gender,
-        Email,
-        Phone,
-        DOB,
-        Photo,        
-        HouseNo,
-        Street,
-        City,
-        GuardianName,
-        GuardianContact,
-        Relationship,
-        DateOfAdmission: new Date().toISOString().split('T')[0], 
-        Class,
-        Section,        
-      });
-
-      if (response.status === 200) {
-        alert('Form submitted successfully!');
-      } else {
-        alert('Failed to submit the form.');
-      }
+      
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64Photo = reader.result.split(',')[1];
+  
+        
+        const response = await axios.post('http://localhost:5000/Admission', {
+          StudentID: generatedID,
+          FirstName,
+          LastName,
+          Age,
+          Gender,
+          Email,
+          Phone,
+          DOB,
+          StudentPhoto: base64Photo, 
+          HouseNo,
+          Street,
+          City,
+          GuardianName,
+          GuardianContact,
+          Relationship,
+          DateOfAdmission: new Date().toISOString().split('T')[0], 
+          Class,
+          Section,
+        });
+  
+        if (response.status === 200) {
+          alert('Form submitted successfully!');
+        } else {
+          alert('Failed to submit the form.');
+        }
+      };
+  
+      
+      reader.readAsDataURL(StudentPhoto); 
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('There was an error submitting the form.');
     }
   };
-
+  
   return (
     
     <div className="StudentRegistration">
@@ -224,7 +231,7 @@ const Admission = () => {
         <label>Profile Picture:</label>
         <input
           type="file"
-          name="Photo"
+          name="StudentPhoto"
           onChange={handlePhotoChange}
           accept="image/*"
           className="picture"

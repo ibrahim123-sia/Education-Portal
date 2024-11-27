@@ -1,9 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import footer_logo from "./logo.png";
-import whatsapp from "./whatsapp.png";
-import facebook from "./facebook.png";
-import instagram from "./instagram.png";
 
 const Footer = () => {
   return (
@@ -18,9 +14,10 @@ const Footer = () => {
     <p>
       <a href="/dashboard">Dashboard</a> | 
  |    <a href="/settings">Settings</a> | 
-      <a href="/reports">Reports</a>
+      <a href="/reports">Reports  </a>
+      Need help? <a href="mailto:it.support@schoolportal.com">Contact Support</a>
     </p>
-    <p>Need help? <a href="mailto:it.support@schoolportal.com">Contact Support</a></p>
+    
   </div>
 </footer>
 

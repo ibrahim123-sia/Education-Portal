@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import "./Admindashboard.css";
 import homeicon from "../AdminAssets/homeicon.png";
 import logo from "../AdminAssets/logo.png";
@@ -12,31 +12,40 @@ import { Context } from "../Context/Context";
 import { useContext } from "react";
 import adminicon from "../AdminAssets/admin.png";
 import settingiocn from "../AdminAssets/setting.png";
+import open from "../AdminAssets/open.png";
 import axios from "axios";
+
 
 
 const Admindashboard = () => {
   const [TotalStd, setTotalStd] = useState(0);
+  const [FeeCollection, setFeeCollection] = useState(0);
+
   const { username } = useContext(Context);
 
-  const HandleCount = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get("http://localhost:5000/count");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/count");
+        setTotalStd(response.data.totalStudents || 0);
+        setFeeCollection(response.data.FeeCollection || 0);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      const TotalStudent = response.data.totalStudents;
-      setTotalStd(TotalStudent);
-    } catch (error) {
-      console.error("Error fetching student count:", error);
-    }
-  };
+    fetchData(); 
+  }, []);
 
   return (
     <div className="mainDashboard">
+      
+
       <div className="sider">
         <div className="DTitle">
           <img src={logo} alt="" />
           <p>Education System</p>
+          
         </div>
         <div className="option Home">
           <Link to="/AdminDashboard" className="link">
@@ -57,9 +66,9 @@ const Admindashboard = () => {
           <p>Student</p>
 
           <div className="dropdown-content">
-            <p>Fee Collection</p>
-            <p>View Attendence</p>
-            <p>View Students</p>
+           <Link to='/FeeCollection'><p>Fee Collection</p></Link> 
+            <Link to='/ViewStudentAttendences'><p>View Attendence</p></Link>
+            <Link to='/ViewStudentRecord'><p>View Students</p></Link>
           </div>
         </div>
 
@@ -86,6 +95,7 @@ const Admindashboard = () => {
           <p>Settings</p>
         </div>
       </div>
+
 
       <div className="Dashboard-content">
         <div className="navbarD">
@@ -118,6 +128,7 @@ const Admindashboard = () => {
             <div className="f fee">
               <h2>Fee Collection</h2>
               <p>for this month</p>
+              <h1>{FeeCollection}</h1>
             </div>
             <div className="f sabsent">
               <h2>No Of Student</h2>
@@ -144,11 +155,10 @@ const Admindashboard = () => {
           <div class="footer-right">
             <p>
               <a href="/dashboard">Dashboard</a> |            
-              <a href="/settings">Settings</a> |<a href="/reports">Reports</a>
-            </p>
-            <p>
-              Need help?{" "}
+              <a href="/settings">Services</a> |<a href="/reports">Reports       </a>
+              Need help?{"  "} 
               <a href="mailto:it.support@schoolportal.com">Contact Support</a>
+              
             </p>
           </div>
         </div>
@@ -158,3 +168,5 @@ const Admindashboard = () => {
 };
 
 export default Admindashboard;
+
+ 
