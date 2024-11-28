@@ -286,7 +286,7 @@ app.get('/count', async (req, res) => {
     const studentQuery = "select count(StudentID) AS 'TotalStudents' from Students";
     const studentResult = await request.query(studentQuery);
 
-    const feeQuery = "SELECT SUM(PaidAmount) AS FeeCollection FROM TuitionFee WHERE PaymentStatus='Paid'";
+    const feeQuery = "SELECT SUM(PaidAmount) AS 'FeeCollection'FROM TuitionFee WHERE MONTH(PaymentDate) = MONTH(GETDATE()) AND YEAR(PaymentDate) = YEAR(GETDATE()) and PaymentStatus='Paid';";
     const feeResult = await request.query(feeQuery);
 
     const totalStudents = studentResult.recordset[0]?.TotalStudents || 0; 

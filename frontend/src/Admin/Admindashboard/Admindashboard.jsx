@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from "react";
 import "./Admindashboard.css";
 import homeicon from "../AdminAssets/homeicon.png";
-import logo from "../AdminAssets/logo.png";
+import education from "../AdminAssets/education.png";
 import addmisionicon from "../AdminAssets/addmisionicon.png";
 import studenticon from "../AdminAssets/student.png";
 import teachericon from "../AdminAssets/teacher.png";
@@ -12,7 +12,8 @@ import { Context } from "../Context/Context";
 import { useContext } from "react";
 import adminicon from "../AdminAssets/admin.png";
 import settingiocn from "../AdminAssets/setting.png";
-import open from "../AdminAssets/open.png";
+import revenue1 from "../AdminAssets/revenue1.png";
+import Tstudent from "../AdminAssets/Tstudent.png";
 import axios from "axios";
 
 
@@ -43,9 +44,8 @@ const Admindashboard = () => {
 
       <div className="sider">
         <div className="DTitle">
-          <img src={logo} alt="" />
-          <p>Education System</p>
-          
+          <img src={education} alt="" />
+          <p>Education System</p>          
         </div>
         <div className="option Home">
           <Link to="/AdminDashboard" className="link">
@@ -66,9 +66,9 @@ const Admindashboard = () => {
           <p>Student</p>
 
           <div className="dropdown-content">
-           <Link to='/FeeCollection'><p>Fee Collection</p></Link> 
-            <Link to='/ViewStudentAttendences'><p>View Attendence</p></Link>
-            <Link to='/ViewStudentRecord'><p>View Students</p></Link>
+           <Link to='/FeeCollection' className="link"><p>Fee Collection</p></Link> 
+            <Link to='/ViewStudentAttendences' className="link"><p>View Attendence</p></Link>
+            <Link to='/ViewStudentRecord' className="link"><p>View Students</p></Link>
           </div>
         </div>
 
@@ -77,7 +77,7 @@ const Admindashboard = () => {
           <p>Faculty</p>
           <div className="dropdown-content">
             <p>View Faculty</p>
-            <Link to="/AddFaculty">
+            <Link to="/AddFaculty" className="link">
               {" "}
               <p>Add New Faculty</p>
             </Link>
@@ -123,12 +123,14 @@ const Admindashboard = () => {
             <div className="f student">
               <h2>Total Registered </h2>
               <p>students</p>
-              <h1>{TotalStd}</h1>
+              <h1 className="h1">{TotalStd}</h1>
+              <img src={Tstudent} alt="" />
             </div>
             <div className="f fee">
               <h2>Fee Collection</h2>
               <p>for this month</p>
-              <h1>{FeeCollection}</h1>
+              <h1 className="h1">{FeeCollection}</h1>
+              <img src={revenue1} alt="" />
             </div>
             <div className="f sabsent">
               <h2>No Of Student</h2>

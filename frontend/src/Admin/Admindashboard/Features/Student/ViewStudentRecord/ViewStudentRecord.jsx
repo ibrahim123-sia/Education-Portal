@@ -96,6 +96,7 @@ const ViewStudentRecord = () => {
                 <p>Email: {FilteredRecord.Email}</p>
                 <p>Gender: {FilteredRecord.Gender}</p>
                 <p>Date of Birth: {FilteredRecord.DOB}</p>
+                <p>Phone: {FilteredRecord.Phone}</p>
               </div>
             </div>
           ) : (
