@@ -1,0 +1,102 @@
+/* General Page Styling */
+.CA-container {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.CA-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.CA-date-container {
+    margin-bottom: 20px;
+}
+
+.CA-date-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.CA-date-input {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Table Styling */
+.CA-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.CA-table th, .CA-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.CA-table th {
+    background-color: #3f51b5; /* Different shade for student attendance */
+    color: white;
+}
+
+.CA-table td:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.CA-table td:nth-child(odd) {
+    background-color: #fff;
+}
+
+/* Dropdown Styling */
+.CA-status-select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* Button Styling */
+.CA-save-button {
+    padding: 8px 15px;
+    background-color: #3f51b5; /* Same as table header */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.CA-save-button:hover {
+    background-color: #3547a3; /* Slightly darker shade on hover */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .CA-table {
+        font-size: 14px;
+    }
+
+    .CA-table th, .CA-table td {
+        padding: 8px;
+    }
+
+    .CA-save-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}

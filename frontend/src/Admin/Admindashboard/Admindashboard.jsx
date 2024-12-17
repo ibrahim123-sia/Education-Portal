@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Admindashboard.css";
 import homeicon from "../AdminAssets/homeicon.png";
 import education from "../AdminAssets/education.png";
@@ -8,21 +8,16 @@ import teachericon from "../AdminAssets/teacher.png";
 import annoucement from "../AdminAssets/annoucement.png";
 import { Link } from "react-router-dom";
 import searchicon from "../AdminAssets/searchicon.png";
-import { Context } from "../Context/Context";
-import { useContext } from "react";
 import adminicon from "../AdminAssets/admin.png";
 import settingiocn from "../AdminAssets/setting.png";
 import revenue1 from "../AdminAssets/revenue1.png";
 import Tstudent from "../AdminAssets/Tstudent.png";
+import schedule from "../AdminAssets/schedule.png";
 import axios from "axios";
-
-
 
 const Admindashboard = () => {
   const [TotalStd, setTotalStd] = useState(0);
   const [FeeCollection, setFeeCollection] = useState(0);
-
-  const { username } = useContext(Context);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,18 +30,19 @@ const Admindashboard = () => {
       }
     };
 
-    fetchData(); 
+    fetchData();
   }, []);
+
+
 
   return (
     <div className="mainDashboard">
-      
-
       <div className="sider">
         <div className="DTitle">
           <img src={education} alt="" />
-          <p>Education System</p>          
+          <p>Education Portal</p>
         </div>
+
         <div className="option Home">
           <Link to="/AdminDashboard" className="link">
             <img src={homeicon} alt="Home Icon" />
@@ -64,11 +60,16 @@ const Admindashboard = () => {
         <div className="option Student">
           <img src={studenticon} alt="Student Icon" />
           <p>Student</p>
-
           <div className="dropdown-content">
-           <Link to='/FeeCollection' className="link"><p>Fee Collection</p></Link> 
-            <Link to='/ViewStudentAttendences' className="link"><p>View Attendence</p></Link>
-            <Link to='/ViewStudentRecord' className="link"><p>View Students</p></Link>
+            <Link to="/FeeCollection" className="link">
+              <p>Fee Collection</p>
+            </Link>
+            <Link to="/ViewStudentRecord" className="link">
+              <p>View Records</p>
+            </Link>
+            <Link to="/StudentAttendences" className="link">
+              <p>View Attendences</p>
+            </Link>
           </div>
         </div>
 
@@ -76,26 +77,45 @@ const Admindashboard = () => {
           <img src={teachericon} alt="Faculty Icon" />
           <p>Faculty</p>
           <div className="dropdown-content">
-            <p>View Faculty</p>
             <Link to="/AddFaculty" className="link">
-              {" "}
-              <p>Add New Faculty</p>
+              <p>New Hiring</p>
             </Link>
-            <p>Mark Attendences</p>
+            <Link to="/ViewFacultyRecord" className="link">
+              <p>View Records</p>{" "}
+            </Link>
+            <Link to='/MarkAttendences' className="link">
+              <p>Mark Attendences</p>
+            </Link>
           </div>
         </div>
 
         <div className="option Annoucement">
-          <img src={annoucement} alt="Announcement Icon" />
-          <p>Announcement</p>
+          <Link to="/Annoucement" className="link">
+            <img src={annoucement} alt="Announcement Icon" />
+            <p>Announcement</p>
+          </Link>
+        </div>
+
+        <div className="option Schedule">
+          <img src={schedule} alt="Faculty Icon" />
+          <p>Create Schedule</p>
+          <div className="dropdown-content">
+            <Link to="/ExamSchedule" className="link">
+              <p>For Exams</p>
+            </Link>
+            <Link to="/ClassSchedule"  className="link">
+              <p>For Classes</p>{" "}
+            </Link>
+          </div>
         </div>
 
         <div className="option setting">
-          <img src={settingiocn} alt="" />
-          <p>Settings</p>
+          <Link className="link">
+            <img src={settingiocn} alt="" />
+            <p>Settings</p>
+          </Link>
         </div>
       </div>
-
 
       <div className="Dashboard-content">
         <div className="navbarD">
@@ -104,7 +124,7 @@ const Admindashboard = () => {
             <input type="text" placeholder="Search" class="search-input" />
           </div>
           <div className="username">
-            <p>{username}</p>
+            <p></p>
             <img src={adminicon} alt="" />
           </div>
         </div>
@@ -114,7 +134,7 @@ const Admindashboard = () => {
             <h2 className="h2">Dashboard!!</h2>
             <div className="userphoto">
               <img src={adminicon} alt="" />
-              <p>HEY! {username}</p>
+              <p>HEY! </p>
             </div>
           </div>
         </div>
@@ -156,11 +176,10 @@ const Admindashboard = () => {
           </div>
           <div class="footer-right">
             <p>
-              <a href="/dashboard">Dashboard</a> |            
-              <a href="/settings">Services</a> |<a href="/reports">Reports       </a>
-              Need help?{"  "} 
+              <a href="/dashboard">Dashboard</a> |
+              <a href="/settings">Services</a> |<a href="/reports">Reports </a>
+              Need help?{"  "}
               <a href="mailto:it.support@schoolportal.com">Contact Support</a>
-              
             </p>
           </div>
         </div>
@@ -170,5 +189,3 @@ const Admindashboard = () => {
 };
 
 export default Admindashboard;
-
- 

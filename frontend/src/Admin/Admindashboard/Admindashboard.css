@@ -139,12 +139,10 @@
 }
 
 .option:hover {
-  background: #007acc;
+  background: #47b6ff;
 }
 
 .dropdown-content {
-  justify-content: center;
-  align-items: center;
   display: none;  
   left: 100%;
   top: 0;

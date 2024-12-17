@@ -1,0 +1,317 @@
+.TD-mainDashboard {
+    display: flex;
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.TD-sider {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    height: 100vh;
+    width: 250px;
+    background: #252526;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    border-radius: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.TD-Dashboard-content {
+    width: calc(100% - 250px);
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+    gap: 30px;
+    height: 1000px;
+}
+.TD-DTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.TD-navbarD {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    background: #252526;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    margin-top: 5px;
+    width: calc(100% - 250px);
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    left: 252px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.TD-search-container {
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    background-color: transparent;
+    display: flex;
+    gap: 5px;
+}
+.navimg{
+    width: 20px;
+    height: 20px;
+}
+.TD-usernav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.TD-welcome {
+    
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    width: 99.8%;
+    background: #252526;
+    height: 200px;
+    margin-left: 252px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+}
+
+.TD-a {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 50px;
+}
+
+.TD-h2 {
+    margin-left: 15px;
+}
+
+.TD-userphoto {
+    display: flex;
+    align-items: center;
+}
+
+.TD-userphoto img {
+    width: 100px;
+    height: 100px;
+}
+
+.TD-userphoto p {
+    font-size: 24px;
+}
+
+.TD-search-input {
+    width: 100%;
+    padding: 5px 70px 5px 5px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: transparent;
+    color: #e0e0e0;
+    outline: none;
+}
+
+.TD-search-input:focus {
+    border-color: rgb(0, 0, 100);
+}
+
+.TD-search-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.TD-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    color: #e0e0e0;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.TD-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.TD-link img {
+    margin-right: 12px;
+}
+
+.TD-option img {
+    width: 25px;
+    height: 25px;
+}
+
+.TD-option:hover {
+    background: #47b6ff;
+}
+
+.TD-username p {
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 0px;
+}
+
+.TD-Feature {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    width: 99.8%;
+    background: #252526;
+    height: 280px;
+    margin-left: 252px;
+    display: flex;
+}
+
+.TD-count1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 250px;
+    gap: 40px;
+}
+
+.TD-f {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    background: #2d2d30;
+    width: 240px;
+    height: 210px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.TD-graph {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 250px;
+    margin-bottom: 200px;
+}
+
+.TD-DFooter {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 25px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: rgb(8, 8, 8);
+    color: #fff;
+    font-size: 14px;
+    flex: 1;
+}
+
+.TD-footer-right a,
+.TD-footer-left a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+.TD-footer-right a:hover,
+.TD-footer-left a:hover {
+    text-decoration: underline;
+}
+.TeacherSchedule{
+    margin-top: 10px;
+    width: 99.5%;
+    margin-left: 2px;
+}
+.TeacherSchedule h2{
+    margin-bottom: 5px;
+    color: wheat;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #252526;
+  }
+  
+
+.schedule-table th,
+.schedule-table td {
+    border: 1px solid #3e3e3e; 
+    padding: 10px;
+}
+
+.schedule-table th {
+    background-color: #2d2d30; 
+    color: #e0e0e0;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.schedule-table tr:nth-child(even) {
+    background-color: #1e1e1e; 
+}
+
+.schedule-table tr:nth-child(odd) {
+    background-color: #252526; 
+}
+
+.schedule-table tr:hover {
+    background-color: #474747; 
+    transition: background-color 0.3s ease; 
+}
+
+.schedule-table td {
+    font-size: 14px;
+    color: #cfcfcf; 
+}
+
+.search-container {
+    position: relative; /* Ensures dropdown stays near input */
+  }
+  
+  .search-options-dropdown {
+    position: absolute;
+    top: 40px; /* Position dropdown below the search input */
+    left: 0;
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure dropdown is above other elements */
+    border-radius: 4px;
+  }
+  
+  .search-option {
+    padding: 10px;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .search-option:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+  }
+  
+  .search-option:hover {
+    background-color: #f5f5f5; /* Hover effect */
+    color: #000;
+  }
+  

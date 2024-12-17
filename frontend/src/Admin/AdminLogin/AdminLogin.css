@@ -11,10 +11,7 @@
     justify-content: center;
     align-items: center;
 }
-.AdminTitle h1{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-}
+
 .AdminTitle img{
     width: 120px;
     height: 120px;

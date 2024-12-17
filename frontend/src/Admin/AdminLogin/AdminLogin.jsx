@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AdminLogin.css';
 import adminImage from '../AdminAssets/admin.png';
-import { Context } from '../Context/Context'; 
-import { Link } from 'react-router-dom';
+
+
 const AdminLogin = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-
-    const { setUserName } = useContext(Context);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,7 +21,7 @@ const AdminLogin = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        
 
         try {
             const response = await axios.post('http://localhost:5000/Adminlogin', {
@@ -34,7 +31,6 @@ const AdminLogin = () => {
 
             if (response.data && response.data.message === "Login successful") {
                 alert("Login successful!");
-                setUserName(user); 
                 navigate('/AdminDashboard');
             } else {
                 alert("Invalid credentials");
@@ -42,9 +38,7 @@ const AdminLogin = () => {
         } catch (error) {
             console.error("Error logging in", error);
             alert("An error occurred during login");
-        } finally {
-            setLoading(false);
-        }
+        } 
     };
 
     return (
@@ -53,7 +47,7 @@ const AdminLogin = () => {
                 <form onSubmit={handleLogin}>
                     <div className="AdminTitle">
                         <img src={adminImage} alt="" />
-                        <h1>Admin Login</h1>
+                        <h2>Admin Login</h2>
                     </div>
                     <div className="inputfield">
                         <input

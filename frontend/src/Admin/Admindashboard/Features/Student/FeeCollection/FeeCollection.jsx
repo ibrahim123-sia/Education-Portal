@@ -1,8 +1,9 @@
-import React, { useEffect,useState } from 'react';
+import React, {useState } from 'react';
 import './FeeCollection.css';
 import axios from 'axios';
 
 const FeeCollection = () => {
+    const [ReceiptID,setReceiptID]=useState('')
     const [StudentID, setStudentID] = useState('');
     const [TotalFee, setTotalFee] = useState(0);
     const [PaidAmount, setPaidAmount] = useState(0);
@@ -37,6 +38,13 @@ const FeeCollection = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const date = new Date(PaymentDate);
+        const month = date.toLocaleString('default', { month: 'short' }); 
+        const year = date.getFullYear().toString().slice(-2);
+        const UniqueReceiptID=`${StudentID}${month}${year}`
+        setReceiptID(UniqueReceiptID)
+
         const PaymentStatus =
             PaidAmount === TotalFee
                 ? 'Paid'
@@ -46,6 +54,7 @@ const FeeCollection = () => {
     
         try {
             const response = await axios.post('http://localhost:5000/FeeCollection', {
+                ReceiptID:UniqueReceiptID,
                 StudentID,
                 TotalFee,
                 PaidAmount,

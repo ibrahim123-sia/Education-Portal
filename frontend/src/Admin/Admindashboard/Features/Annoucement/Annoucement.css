@@ -1,0 +1,87 @@
+.Annoucement1{
+    padding: 70px;
+    background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.announcement-container {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .announcement-container h2 {
+    text-align: center;
+  }
+  
+  .announcement-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .announcement-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .announcement-card h3 {
+    margin: 0 0 10px;
+    color: #333;
+  }
+  
+  .announcement-card p {
+    margin: 0 0 10px;
+    color: #555;
+  }
+  
+  .announcement-card small {
+    color: #777;
+  }
+  
+  .announcement-form-container {
+    margin: 20px;
+  }
+  
+  .announcement-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .announcement-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+  
+  .announcement-form input,
+  .announcement-form select,
+  .announcement-form textarea {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .announcement-form button {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .announcement-form button:hover {
+    background-color: #0056b3;
+  }
+  

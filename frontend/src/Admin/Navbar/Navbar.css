@@ -10,8 +10,8 @@
   display: flex;
   justify-content: space-between;
   padding: 6px;
-  box-shadow: 0px 1px 4px -2px rgb(0, 0, 0);
-  background: rgb(57, 5, 100);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+  background: #252526;
   color: #ffffff;
 }
 
