@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import './ClassSchedule.css';
-import axios from "axios";
+
 const ClassSchedule = () => {
   const [selectedClass, setSelectedClass] = useState('');
-  const [schedule, setSchedule] = useState([]);
+  const [schedule, setSchedule] = useState({});
   const [loading, setLoading] = useState(false);
+
   const slots = [
     '8:00-8:45',
     '8:45-9:30',
@@ -15,7 +17,6 @@ const ClassSchedule = () => {
     '12:15-1:00',
   ];
 
-  // Predefined subjects for each class
   const subjectsData = {
     'KG': [
       { SCID: 'ENG00', SubjectName: 'English' },
@@ -102,67 +103,52 @@ const ClassSchedule = () => {
     ],
   };
 
-  // Handle class selection change
   const handleClassChange = (classID) => {
     setSelectedClass(classID);
-    setSchedule(slots.map(() => ({ slot: '', subjectID: '' }))); // Reset schedule on class change
+    setSchedule({});
   };
 
-  // Handle slot change
   const handleSlotChange = (slotIndex, subjectID) => {
-    const updatedSchedule = [...schedule];
-    updatedSchedule[slotIndex] = { slot: slots[slotIndex], subjectID };
+    const updatedSchedule = { ...schedule };
+    updatedSchedule[`Subject${slotIndex + 1}`] = subjectID;
+    updatedSchedule[`Slot${slotIndex + 1}`] = slots[slotIndex];
     setSchedule(updatedSchedule);
   };
 
-  // Handle saving the schedule
   const handleSaveSchedule = async () => {
     if (!selectedClass) {
       alert('Please select a class.');
       return;
     }
-  
+
     if (!window.confirm('Are you sure you want to save this schedule?')) {
       return;
     }
-  
+
     setLoading(true);
-  
-    const schedulePayload = {};
-    slots.forEach((slot, index) => {
-      if (schedule[index]?.subjectID) {
-        schedulePayload[`Subject${index + 1}`] = schedule[index].subjectID;
-        schedulePayload[`Slot${index + 1}`] = slot;
-      }
-    });
-  
-    const payload = {
-      classID: selectedClass,
-      schedule: schedulePayload, // Ensure the schedule is sent as an object
-    };
-  
-    console.log('Payload being sent:', payload); // Debug
-  
+
     try {
-      const response = await axios.post('http://localhost:5000/SaveSchedule', payload);
+      const response = await axios.post('http://localhost:5000/SaveSchedule', {
+        classID: selectedClass,
+        schedule,
+      });
       alert('Schedule saved successfully!');
     } catch (error) {
       console.error('Error saving schedule:', error);
-      alert('Error saving schedule.');
+      alert('Failed to save schedule.');
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
+    <div className="Cmain">
     <div className="cs-container">
       <h1 className="cs-title">Class Schedule Management</h1>
 
       <div className="cs-form-group">
-        <label htmlFor="class-select" className="cs-label">Select Class:</label>
+        <label className="cs-label">Select Class:</label>
         <select
-          id="class-select"
           className="cs-select"
           value={selectedClass}
           onChange={(e) => handleClassChange(e.target.value)}
@@ -191,10 +177,11 @@ const ClassSchedule = () => {
                 {slot !== '--Break--' ? (
                   <select
                     className="cs-select"
-                    value={schedule[index]?.subjectID || ''}
+                    value={schedule[`Subject${index + 1}`] || ''}
                     onChange={(e) => handleSlotChange(index, e.target.value)}
                   >
                     <option value="">Select Subject</option>
+                    <option value="FREE">Free Period</option>
                     {subjectsData[selectedClass]?.map((subject) => (
                       <option key={subject.SCID} value={subject.SCID}>
                         {subject.SubjectName}
@@ -217,6 +204,7 @@ const ClassSchedule = () => {
       >
         {loading ? 'Saving...' : 'Save Schedule'}
       </button>
+    </div>
     </div>
   );
 };

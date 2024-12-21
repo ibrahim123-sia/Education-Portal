@@ -21,7 +21,6 @@ const TeacherDashboard = () => {
 
   useEffect(() => {
     const teacherId = localStorage.getItem("teacherId");
-    console.log("Retrieved Teacher ID:", teacherId);
 
     if (teacherId) {
       fetchTeacherData(teacherId);
@@ -87,9 +86,9 @@ const TeacherDashboard = () => {
           </Link>
         </div>
         <div className="TD-option TD-setting">
-          <Link className="TD-link">
+          <Link to='/' className="TD-link">
             <img src={settingicon} alt="" />
-            <p>Settings</p>
+            <p>Logout</p>
           </Link>
         </div>
       </div>
@@ -143,7 +142,7 @@ const TeacherDashboard = () => {
                 alt="Teacher Icon"
               />
               <p>
-                Welcome {teacherData.FirstName} {teacherData.LastName}
+                 Welcome {teacherData.FirstName} {teacherData.LastName}
               </p>
             </div>
           </div>

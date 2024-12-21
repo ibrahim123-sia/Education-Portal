@@ -1,49 +1,69 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import './FeeCollection.css';
 import axios from 'axios';
 
 const FeeCollection = () => {
-    const [ReceiptID,setReceiptID]=useState('')
+    const [ReceiptID, setReceiptID] = useState('');
     const [StudentID, setStudentID] = useState('');
-    const [TotalFee, setTotalFee] = useState(0);
-    const [PaidAmount, setPaidAmount] = useState(0);
-    const [RemainingBalance, setRemainingBalance] = useState(0);
+    const [TotalFee, setTotalFee] = useState();
+    const [PaidAmount, setPaidAmount] = useState();
+    const [RemainingBalance, setRemainingBalance] = useState();
     const [PaymentDate, setPaymentDate] = useState('');
-    
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        switch (name) {
-            case 'StudentID':
-                setStudentID(value);
-                break;
-            case 'TotalFee':
-                setTotalFee(parseFloat(value));
-                break;
-            case 'PaidAmount':
-                const paid = parseFloat(value);
-                setPaidAmount(paid);
-                setRemainingBalance(TotalFee - paid);
-                break;
+        if (value === '') {
             
-            case 'PaymentDate':
-                setPaymentDate(value);
-                break;
-            default:
-                break;
+            switch (name) {
+                case 'TotalFee':
+                    setTotalFee('');
+                    setRemainingBalance('');
+                    break;
+                case 'PaidAmount':
+                    setPaidAmount('');
+                    setRemainingBalance('');
+                    break;
+                case 'StudentID':
+                    setStudentID('');
+                    break;
+                case 'PaymentDate':
+                    setPaymentDate('');
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            
+            switch (name) {
+                case 'StudentID':
+                    setStudentID(value);
+                    break;
+                case 'TotalFee':
+                    setTotalFee(value);
+                    setRemainingBalance(value - PaidAmount);
+                    break;
+                case 'PaidAmount':
+                    setPaidAmount(value);
+                    setRemainingBalance(TotalFee - value);
+                    break;
+                case 'PaymentDate':
+                    setPaymentDate(value);
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const date = new Date(PaymentDate);
-        const month = date.toLocaleString('default', { month: 'short' }); 
+        const month = date.toLocaleString('default', { month: 'short' });
         const year = date.getFullYear().toString().slice(-2);
-        const UniqueReceiptID=`${StudentID}${month}${year}`
-        setReceiptID(UniqueReceiptID)
+        const UniqueReceiptID = `${StudentID}-${month}${year}`;
+        setReceiptID(UniqueReceiptID);
 
         const PaymentStatus =
             PaidAmount === TotalFee
@@ -51,20 +71,33 @@ const FeeCollection = () => {
                 : PaidAmount > 0 && PaidAmount < TotalFee
                 ? 'Partially Paid'
                 : 'Unpaid';
-    
+
+        const AdminID = localStorage.getItem('adminId'); 
+
+        if (!AdminID) {
+            alert('AdminID not found in local storage.');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:5000/FeeCollection', {
-                ReceiptID:UniqueReceiptID,
+                ReceiptID: UniqueReceiptID,
                 StudentID,
                 TotalFee,
                 PaidAmount,
                 RemainingBalance,
                 PaymentDate,
-                PaymentStatus
+                PaymentStatus,
+                
             });
-    
+
             if (response.status === 200) {
                 alert('Form submitted successfully!');
+                setStudentID('');
+                setTotalFee('');
+                setPaidAmount('');
+                setRemainingBalance('');
+                setPaymentDate('');
             } else {
                 alert('Failed to submit the form.');
             }
@@ -73,13 +106,12 @@ const FeeCollection = () => {
             alert('There was an error submitting the form.');
         }
     };
-    
-    
 
     return (
         <div className="FC">
-            <h1>Fee Collection Form</h1>
             <form onSubmit={handleSubmit}>
+                <h1>Fee Collection Form</h1>
+
                 <div className="form-group">
                     <label htmlFor="StudentID">Student ID:</label>
                     <input
@@ -121,7 +153,7 @@ const FeeCollection = () => {
                     <input
                         type="number"
                         name="RemainingBalance"
-                        value={RemainingBalance}
+                        value={RemainingBalance !== '' ? RemainingBalance : ''}
                         readOnly
                     />
                 </div>
@@ -133,14 +165,14 @@ const FeeCollection = () => {
                         name="PaymentStatus"
                         value={
                             PaidAmount === TotalFee
-                                ? 'Paid': 'Unpaid'
+                                ? 'Paid'
+                                : PaidAmount > 0 && PaidAmount < TotalFee
+                                ? 'Partially Paid'
+                                : 'Unpaid'
                         }
-                        
                         readOnly
                     />
                 </div>
-
-                
 
                 <div className="form-group">
                     <label htmlFor="PaymentDate">Payment Date:</label>
@@ -149,6 +181,7 @@ const FeeCollection = () => {
                         name="PaymentDate"
                         value={PaymentDate}
                         onChange={handleChange}
+                        required
                     />
                 </div>
 

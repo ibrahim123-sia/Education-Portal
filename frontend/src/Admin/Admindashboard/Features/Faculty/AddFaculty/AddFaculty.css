@@ -1,143 +1,141 @@
-
 .FMain {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: rgb(0, 0, 36);
-    font-family: 'Roboto', Arial, sans-serif;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #1e1e1e, #121212);
+  min-height: 100vh;
+  padding: 50px 20px;
+  color: #ffffff;
+}
+
+.Form {
+  background: #2b2b2b;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.std {
+  text-align: center;
+  font-size: 28px;
+  color: #32bff7;
+  margin-bottom: 20px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-container label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #bdbdbd;
+  font-family: 'Roboto', sans-serif;
+}
+
+.input,
+.select {
+  background: #333333;
+  color: #ffffff;
+  padding: 12px;
+  border: 1px solid #32bff7;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input:focus,
+.select:focus {
+  border-color: #32bff7;
+  box-shadow: 0 0 5px #32bff7;
+  outline: none;
+}
+
+.button {
+  background-color: #32bff7;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #388e3c;
+}
+
+.custom-popup {
+  background-color: #2b2b2b;
+  border-radius: 10px;
+  padding: 20px;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  max-width: 300px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.popup-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+
+.popup-content button {
+  padding: 10px 20px;
+  background-color: #32bff7;
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-content button:hover {
+  background-color: #32bff7;
+}
+
+@media (max-width: 768px) {
+  .Form {
+    width: 100%;
     padding: 20px;
   }
-  
-  .FForm {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 600px;
-    padding: 30px 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .FForm h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    border-bottom: 2px solid #4caf50;
-    padding-bottom: 10px;
-  }
-  
 
-  .FForm form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .std {
+    font-size: 24px;
   }
-  
-  .FForm label {
-    display: block;
-    margin-bottom: 8px;
+
+  .button {
     font-size: 14px;
-    color: #666;
-    font-weight: 500;
-  }
-  
-  .FForm input,
-  .FForm select,
-  .FForm button {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline: none;
-    background-color: #fefefe;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .FForm input:focus,
-  .FForm select:focus {
-    border-color: #4caf50;
-    box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
-  }
-  
-  .FForm input:hover,
-  .FForm select:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .FForm select {
-    cursor: pointer;
-    color: #555;
-  }
-  
-  .FForm select option {
     padding: 10px;
-    font-size: 14px;
   }
-  
-  .FForm input[type="file"] {
-    padding: 5px;
-  }
-  
-  .FForm button {
-    background-color: #4caf50;
-    color: #fff;
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .FForm button:hover {
-    background-color: #43a047;
-  }
-  
-  .FForm button:active {
-    background-color: #388e3c;
-  }
-  
-  
-  .FForm .form-group {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .FForm .form-group label {
-    text-align: right;
-    margin-right: 10px;
-    font-size: 15px;
-    color: #444;
-  }
-  
-  .FForm .form-group input,
-  .FForm .form-group select {
-    font-size: 15px;
-  }
-  
-  
-  @media (max-width: 768px) {
-    .FForm {
-      padding: 20px;
-    }
-  
-    .FForm h2 {
-      font-size: 20px;
-    }
-  
-    .FForm .form-group {
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-  
-    .FForm .form-group label {
-      text-align: left;
-      margin-right: 0;
-    }
-  }
-  
+}

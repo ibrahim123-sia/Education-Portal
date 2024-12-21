@@ -69,6 +69,12 @@
     align-items: center;
     gap: 5px;
 }
+.TD-user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
 .TD-welcome {
     
     padding: 10px;

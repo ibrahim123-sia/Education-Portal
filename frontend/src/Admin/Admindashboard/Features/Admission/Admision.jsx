@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Admission.css";
 import axios from "axios";
-import Navbar from "../../../Navbar/Navbar";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
 const Admission = () => {
   const [StudentID, setStudentID] = useState("");
-  const [StudentPassword,setStudentPassword]=useState('')
+  const [StudentPassword, setStudentPassword] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [Age, setAge] = useState("");
@@ -15,7 +14,6 @@ const Admission = () => {
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [DOB, setDOB] = useState("");
-  const [StudentPhoto, setStudentPhoto] = useState(null);
   const [HouseNo, setHouseNo] = useState("");
   const [Street, setStreet] = useState("");
   const [City, setCity] = useState("");
@@ -45,9 +43,9 @@ const Admission = () => {
   const generateStudentID = () => {
     const uniqueNumber = studentCount.toString().padStart(4, "0");
     const studentID = `C${Class}-${Section}-${uniqueNumber}`;
+
     setStudentID(studentID);
     setStudentCount((prevCount) => prevCount + 1);
-    localStorage.setItem("studentCount", studentCount + 1);
     return studentID;
   };
 
@@ -55,11 +53,11 @@ const Admission = () => {
     const chars = {
       upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       lowerCase: "abcdefghijklmnopqrstuvwxyz",
-      numbers: "0123456789"
+      numbers: "0123456789",
     };
-    
+
     let password = "";
-  
+
     const getRandomChars = (source, count) => {
       let result = "";
       for (let i = 0; i < count; i++) {
@@ -73,10 +71,10 @@ const Admission = () => {
     password += getRandomChars(chars.numbers, 2);
 
     password = password.split("").sort(() => Math.random() - 0.5).join("");
-  
+
+    setStudentPassword(password);
     return password;
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -135,17 +133,29 @@ const Admission = () => {
     e.preventDefault();
     const generatedStudentID = generateStudentID();
     const generatedPassword = generatePassword();
-    setStudentPassword(generatedPassword);
 
-    if (!generatedStudentID) {
-      alert("StudentID is invalid.");
+    
+    if (!FirstName.match(/^[A-Za-z]+$/)) {
+      alert("First Name should only contain alphabets.");
+      return;
+    }
+    if (!LastName.match(/^[A-Za-z]+$/)) {
+      alert("Last Name should only contain alphabets.");
+      return;
+    }
+    if (Age < 3 || Age > 16) {
+      alert("Age must be between 3 and 16.");
+      return;
+    }
+    if (!Email) {
+      alert("Please enter a valid email address.");
       return;
     }
 
     try {
       const response = await axios.post("http://localhost:5000/Admission", {
         StudentID: generatedStudentID,
-        StudentPassword:generatedPassword,
+        StudentPassword: generatedPassword,
         FirstName,
         LastName,
         Age,
@@ -153,7 +163,6 @@ const Admission = () => {
         Email,
         Phone,
         DOB,
-        StudentPhoto,
         HouseNo,
         Street,
         City,
@@ -169,6 +178,7 @@ const Admission = () => {
         alert("Form submitted successfully!");
         setIsOpen(true);
 
+       
         setFirstName("");
         setLastName("");
         setAge("");
@@ -176,7 +186,6 @@ const Admission = () => {
         setEmail("");
         setPhone("");
         setDOB("");
-        setStudentPhoto(null);
         setHouseNo("");
         setStreet("");
         setCity("");
@@ -197,7 +206,7 @@ const Admission = () => {
 
   return (
     <div className="StudentRegistration">
-      <Navbar />
+
 
       <form onSubmit={handleSubmit} className="Form">
         <h1 className="std">Student Registration</h1>
@@ -391,6 +400,7 @@ const Admission = () => {
       >
         <div className="popup-content">
           <h2>ID: {StudentID}</h2>
+          <h3>Password: {StudentPassword}</h3>
           <p>Successfully Registered!</p>
           <button onClick={() => setIsOpen(false)}>Close</button>
         </div>

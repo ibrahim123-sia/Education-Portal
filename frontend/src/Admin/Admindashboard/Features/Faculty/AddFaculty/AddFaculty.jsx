@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AddFaculty.css";
 import axios from "axios";
-
+import Popup from "reactjs-popup";
 const AddFaculty = () => {
   const [TeacherID, setTeacherID] = useState("");
   const [TeacherPassword,setTeacherPassword]=useState('')
@@ -23,7 +23,7 @@ const AddFaculty = () => {
   const [SubjectID, setSubjectID] = useState("");
   const [SubjectName, setSubjectName] = useState("");
   const [TeacherCount, setTeacherCount] = useState(1);
-  const [Photo, setPhoto] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const provinces = [
     "Punjab",
@@ -42,26 +42,7 @@ const AddFaculty = () => {
     "Azad Jammu and Kashmir": ["Muzaffarabad", "Mirpur"],
   };
 
-  const degrees = [
-    "B.A Arts",
-    "M.A Arts",
-    "B.Ed",
-    "B.A English",
-    "M.A English",
-    "B.Sc Mathematics",
-    "M.Sc Mathematics",
-    "B.Sc Physics",
-    "M.Sc Physics",
-    "B.Sc Chemistry",
-    "M.Sc Chemistry",
-    "B.Sc Biology",
-    "M.Sc Biology",
-    "B.A History",
-    "M.A History",
-    "B.A Geography",
-    "M.A Geography",
-    "B.Sc Computer Science",
-  ];
+  
 
   const handleSubject = () => {
     switch (Degree) {
@@ -192,6 +173,19 @@ const AddFaculty = () => {
     localStorage.setItem("TeacherCount", newCount);
     setTeacherCount(newCount);
 
+    if (!FirstName.match(/^[A-Za-z]+$/)) {
+      alert("First Name should only contain alphabets.");
+      return;
+    }
+    if (!LastName.match(/^[A-Za-z]+$/)) {
+      alert("Last Name should only contain alphabets.");
+      return;
+    }
+    if (!Email) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:5000/AddFaculty", {
         TeacherID: generatedID,
@@ -216,79 +210,106 @@ const AddFaculty = () => {
       });
 
       alert("Faculty Added Successfully");
-      console.log(response.data);
+      setIsOpen(true);
+      
     } catch (error) {
       console.error("Error during form submission:", error);
     }
   };
 
   return (
-    <div className="FMain">
-      <div className="FForm">
-        <h2>Add Faculty Member</h2>
-        <form onSubmit={handleSubmit}>
+    <div className="StudentRegistration">
+      <form onSubmit={handleSubmit} className="Form">
+        <h1 className="std">Add Faculty Member</h1>
+
+        <div className="input-container">
+          <label>First Name:</label>
           <input
             type="text"
             name="FirstName"
-            required
-            placeholder="First Name"
             value={FirstName}
             onChange={(e) => setFirstName(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Last Name:</label>
           <input
             type="text"
             name="LastName"
-            required
-            placeholder="Last Name"
             value={LastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Gender:</label>
           <select
             name="Gender"
             value={Gender}
             onChange={(e) => setGender(e.target.value)}
+            required
+            className="select"
           >
-            <option value="">Select Gender</option>
+            <option value="">Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+        </div>
+        <div className="input-container">
+          <label>Date of Birth:</label>
           <input
             type="date"
             name="DOB"
-            required
             value={DOB}
             onChange={(e) => setDOB(e.target.value)}
-            placeholder="Date Of Birth"
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Email Address:</label>
           <input
             type="email"
             name="Email"
-            required
-            placeholder="Email"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="text"
-            name="Phone"
             required
-            placeholder="Phone"
+            className="input"
+          />
+        </div>
+        <div className="input-container">
+          <label>Phone Number:</label>
+          <input
+            type="tel"
+            name="Phone"
             value={Phone}
             onChange={(e) => setPhone(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>CNIC:</label>
           <input
             type="text"
             name="CNIC"
-            required
-            placeholder="Enter CNIC"
             value={CNIC}
             onChange={(e) => setCNIC(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Province:</label>
           <select
             name="State"
             value={State}
-            required
             onChange={(e) => setState(e.target.value)}
+            required
+            className="select"
           >
             <option value="">Select Province</option>
             {provinces.map((province) => (
@@ -297,11 +318,15 @@ const AddFaculty = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="input-container">
+          <label>City:</label>
           <select
             name="City"
-            required
             value={City}
             onChange={(e) => setCity(e.target.value)}
+            required
+            className="select"
           >
             <option value="">Select City</option>
             {State &&
@@ -311,61 +336,113 @@ const AddFaculty = () => {
                 </option>
               ))}
           </select>
+        </div>
+        <div className="input-container">
+          <label>Postal Code:</label>
           <input
             type="text"
             name="PostalCode"
-            required
-            placeholder="Postal Code"
             value={PostalCode}
             onChange={(e) => setPostalCode(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>House No:</label>
           <input
             type="text"
             name="HouseNo"
-            required
-            placeholder="House No"
             value={HouseNo}
             onChange={(e) => setHouseNo(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Degree:</label>
           <select
-            name="Degree"
-            value={Degree}
-            onChange={(e) => setDegree(e.target.value)}
-          >
-            <option value="">Select Degree</option>
-            {degrees.map((deg) => (
-              <option key={deg} value={deg}>
-                {deg}
-              </option>
-            ))}
-          </select>
+    name="Degree"
+    value={Degree}
+    onChange={(e) => setDegree(e.target.value)}
+    required
+    className="select"
+  >
+    <option value="">Select Degree</option>
+    <option value="B.A Urdu">B.A Urdu</option>
+    <option value="M.A Urdu">M.A Urdu</option>
+    <option value="B.A Islamiat">B.A Islamiat</option>
+    <option value="M.A Islamiat">M.A Islamiat</option>
+    <option value="B.A Arts">B.A Arts</option>
+    <option value="M.A Arts">M.A Arts</option>
+    <option value="B.Ed">B.Ed</option>
+    <option value="B.A English">B.A English</option>
+    <option value="M.A English">M.A English</option>
+    <option value="B.Sc Mathematics">B.Sc Mathematics</option>
+    <option value="M.Sc Mathematics">M.Sc Mathematics</option>
+    <option value="B.Sc Physics">B.Sc Physics</option>
+    <option value="M.Sc Physics">M.Sc Physics</option>
+    <option value="B.Sc Chemistry">B.Sc Chemistry</option>
+    <option value="M.Sc Chemistry">M.Sc Chemistry</option>
+    <option value="B.Sc Biology">B.Sc Biology</option>
+    <option value="M.Sc Biology">M.Sc Biology</option>
+    <option value="B.A History">B.A History</option>
+    <option value="M.A History">M.A History</option>
+    <option value="B.A Geography">B.A Geography</option>
+    <option value="M.A Geography">M.A Geography</option>
+    <option value="B.Sc Computer Science">B.Sc Computer Science</option>
+    <option value="B.A Art and Craft">B.A Art and Craft</option>
+    <option value="M.A Art and Craft">M.A Art and Craft</option>
+    <option value="B.A Drawing">B.A Drawing</option>
+    <option value="M.A Drawing">M.A Drawing</option>
+  </select>
+        </div>
+        <div className="input-container">
+          <label>Institution:</label>
           <input
             type="text"
             name="Institution"
-            required
-            placeholder="Institution"
             value={Institution}
             onChange={(e) => setInstitution(e.target.value)}
+            required
+            className="input"
           />
+        </div>
+        <div className="input-container">
+          <label>Degree Completion Date:</label>
           <input
             type="date"
             name="DateCompleted"
-            required
-            placeholder="Degree Completion Date"
             value={DateCompleted}
             onChange={(e) => setDateCompleted(e.target.value)}
+            required
+            className="input"
           />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPhoto(e.target.files[0])}
-          />
+        </div>
 
-          <button type="submit">Save Faculty</button>
-        </form>
-      </div>
+        <button type="submit" className="button">
+          Save Faculty
+        </button>
+      </form>
+
+      <Popup
+        position="right center"
+        open={isOpen}
+        closeOnDocumentClick={false}
+        className="custom-popup"
+        onClose={() => setIsOpen(false)}
+      >
+        <div className="popup-content">
+          <h2>ID: {TeacherID}</h2>
+          <h3>Password: {TeacherPassword}</h3>
+          <p>Successfully Registered!</p>
+          <button onClick={() => setIsOpen(false)}>Close</button>
+        </div>
+      </Popup>
     </div>
   );
+  
+  
 };
 
 export default AddFaculty;

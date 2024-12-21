@@ -12,7 +12,7 @@ const Annoucement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const announcementData = await axios.post('http://localhost:5000/Annoucement', {
+      const announcementData = await axios.post('http://localhost:5000/Announcements', {
         Title,
         Description,
         TargetAudience,
@@ -38,9 +38,9 @@ const Annoucement = () => {
 
   return (
     <div className='Annoucement1'>
-      <div className="announcement-form-container">
-        <h2>Create Announcement</h2>
+      <div className="announcement-form-container">        
         <form className="announcement-form" onSubmit={handleSubmit}>
+        <h2>Create Announcement</h2>
           <label>
             Title:
             <input
@@ -75,7 +75,7 @@ const Annoucement = () => {
           <label>
             Start Date:
             <input
-              type="datetime-local"
+              type="date"
               name="Start_date"
               value={StartDate}
               onChange={(e) => setStartDate(e.target.value)}
@@ -85,7 +85,7 @@ const Annoucement = () => {
           <label>
             End Date:
             <input
-              type="datetime-local"
+              type="date"
               name="End_date"
               value={EndDate}
               onChange={(e) => setEndDate(e.target.value)}

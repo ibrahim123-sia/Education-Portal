@@ -62,6 +62,7 @@ const MarkAttendances = () => {
       const payload = {
         TeacherID: teacherID,
         FirstName: teacher.FirstName,
+        LastName:teacher.LastName,
         AttendanceDate: selectedAttendanceDate,
         Status: attendanceRecord.status,
       };
@@ -81,6 +82,7 @@ const MarkAttendances = () => {
   };
 
   return (
+  <div className="Tamain">
     <div className="TA-container">
       <h1 className="TA-title">Teacher Attendance</h1>
 
@@ -137,6 +139,7 @@ const MarkAttendances = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

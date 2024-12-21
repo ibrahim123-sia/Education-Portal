@@ -3,53 +3,74 @@ import axios from "axios";
 import "./Assignment.css";
 
 const Assignment = () => {
-  const [classes, setClasses] = useState([]); // To store the classes belonging to the teacher
-  const [selectedClass, setSelectedClass] = useState(""); // To store the selected class
-  const [title, setTitle] = useState(""); // Title of the assignment
-  const [description, setDescription] = useState(""); // Assignment description
+  const [classes, setClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const teacherId = localStorage.getItem("teacherId");
 
-  // Fetch classes belonging to the logged-in teacher
   useEffect(() => {
-    const fetchTeacherClasses = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/GetTeacherClasses");
-        const classData = response.data.Classes || [];
-        setClasses(classData);
-      } catch (error) {
-        console.error("Error fetching classes:", error);
+    if (teacherId) {
+      fetchTeacherClasses();
+    } else {
+      alert("Teacher not logged in.");
+    }
+  }, [teacherId]);
+
+  const fetchTeacherClasses = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/GetTeacherClasses", {
+        params: { TeacherID: teacherId },
+      });
+      if (response.status === 200) {
+        setClasses(response.data || []);
+      } else {
+        console.error("Unexpected response status:", response.status);
+        alert("Failed to load classes. Please try again.");
       }
-    };
-
-    fetchTeacherClasses();
-  }, []);
-
-  // Submit the assignment
+    } catch (error) {
+      console.error("Error fetching teacher's classes:", error.message);
+      alert("Failed to fetch classes. Please check your server connection.");
+    }
+  };
+  
   const handleSaveAssignment = async () => {
-    if (!selectedClass || !title.trim() || !description.trim()) {
+    if (!selectedClass || !selectedSubject || !title.trim() || !description.trim()) {
       alert("Please fill out all fields.");
       return;
     }
-
+  
     const payload = {
       ClassID: selectedClass,
+      SCID: selectedSubject,
       Title: title,
       Description: description,
-      DueDate: new Date().toISOString().split("T")[0], // Default due date: Today
+      TeacherID: teacherId,
+      DueDate: new Date().toISOString(),
     };
-
+  
     try {
-      await axios.post("http://localhost:5000/SaveAssignment", payload);
-      alert("Assignment created successfully!");
-      setSelectedClass("");
-      setTitle("");
-      setDescription("");
+      const response = await axios.post("http://localhost:5000/SaveAssignment", payload);
+      if (response.status === 201) {
+        alert("Assignment created successfully!");
+        setSelectedClass("");
+        setSelectedSubject("");
+        setTitle("");
+        setDescription("");
+      } else {
+        console.error("Unexpected response status:", response.status);
+        alert("Failed to create assignment. Please try again.");
+      }
     } catch (error) {
-      console.error("Error saving assignment:", error);
-      alert("Failed to create assignment.");
+      console.error("Error saving assignment:", error.message);
+      alert("Server error. Please try again later.");
     }
   };
+  
 
   return (
+    <div className="AS">
     <div className="assignment-container">
       <h1 className="assignment-title">Create Assignment</h1>
 
@@ -63,9 +84,28 @@ const Assignment = () => {
           <option value="">-- Select Class --</option>
           {classes.map((classItem) => (
             <option key={classItem.ClassID} value={classItem.ClassID}>
-              {classItem.ClassName}
+              {classItem.ClassID}
             </option>
           ))}
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="subject-select">Select Subject:</label>
+        <select
+          id="subject-select"
+          value={selectedSubject}
+          onChange={(e) => setSelectedSubject(e.target.value)}
+        >
+          <option value="">-- Select Subject --</option>
+          {classes.map(
+            (classItem) =>
+              classItem.ClassID === selectedClass && (
+                <option key={classItem.SCID} value={classItem.SCID}>
+                  {classItem.SubjectName}
+                </option>
+              )
+          )}
         </select>
       </div>
 
@@ -94,6 +134,7 @@ const Assignment = () => {
       <button className="save-button" onClick={handleSaveAssignment}>
         Save Assignment
       </button>
+    </div>
     </div>
   );
 };

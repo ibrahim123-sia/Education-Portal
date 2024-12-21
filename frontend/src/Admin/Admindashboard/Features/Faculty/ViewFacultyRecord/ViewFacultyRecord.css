@@ -1,153 +1,194 @@
-/* General Styling */
 .Fmain {
-    padding: 50px;
-    background: #121212;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-  }
-  
+  padding: 50px;
+  background: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.FRmain-container {
+  width: 60%;
+  margin: 20px auto;
+  background: #1f1f1f;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  min-height: 600px;
+}
+
+.FRsearch-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.FRsearch-section h1 {
+  color: #ffffff;
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.FRinput-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.FRinput-group input,
+.FRinput-group select {
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  width: 260px;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  transition: border-color 0.3s ease;
+}
+
+.FRinput-group input::placeholder,
+.FRinput-group select {
+  color: #999;
+}
+
+.FRinput-group input:focus,
+.FRinput-group select:focus {
+  border-color: #5c95ff;
+  outline: none;
+}
+
+.FRinput-group button {
+  padding: 14px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #00c3ff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: auto;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.FRinput-group button:hover {
+  background-color: #3c73ff;
+  transform: scale(1.05);
+}
+
+.FRinput-group button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.FRresult-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.FRrecord-card {
+  background-color: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  margin: 20px auto;
+  text-align: left;
+  max-width: 500px;
+  color: #ffffff;
+}
+
+.FRrecord-details label {
+  font-weight: bold;
+  color: #bbbbbb;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.FRrecord-details input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background-color: #1f1f1f;
+  color: #ffffff;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.FRrecord-details input:focus {
+  background-color: #333;
+  border-color: #5c95ff;
+  outline: none;
+}
+
+.FRrecord-details input:disabled {
+  background-color: #333;
+  color: #777;
+}
+
+button {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3c73ff;
+}
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+button:not([disabled]) {
+  background-color: #5c95ff;
+  color: #ffffff;
+}
+
+button.secondary {
+  background-color: #888;
+  color: #ffffff;
+}
+
+button.secondary:hover {
+  background-color: #666;
+}
+
+/* Adjusting button layout */
+.FRrecord-card button {
+  margin-top: 10px;
+}
+
+.FRrecord-card button:not(:last-child) {
+  margin-right: 10px;
+}
+
+/* Highlighting FacultyID */
+.FRrecord-card h4 {
+  font-size: 20px;
+  color: #00c3ff; /* Highlighted in cyan */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .FRmain-container {
-    width: 60%;
-    margin: 20px auto;
-    background: #1f1f1f;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    min-height: 600px;
-  }
-  
-  /* Search Section */
-  .FRsearch-section {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .FRsearch-section h1 {
-    color: #ffffff;
-    font-size: 28px;
-    margin-bottom: 15px;
-    font-weight: bold;
-  }
-  
-  .FRinput-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  .FRinput-group input,
-  .FRinput-group select {
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 260px;
-    background-color: #2a2a2a;
-    color: #ffffff;
-  }
-  
-  .FRinput-group input::placeholder,
-  .FRinput-group select {
-    color: #999;
-  }
-  
-  .FRinput-group button {
-    padding: 12px 20px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #5c95ff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: auto;
-    transition: background-color 0.3s ease;
-  }
-  
-  .FRinput-group button:hover {
-    background-color: #3c73ff;
-  }
-  
-  .FRinput-group button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-  }
-  
-  /* Result Section */
-  .FRresult-section {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .FRno-data {
-    color: #bbbbbb;
-    font-style: italic;
-    margin-top: 20px;
-  }
-  
-  /* Record Cards */
-  .FRrecord-card {
-    background-color: #2a2a2a;
+    width: 90%;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    margin: 20px auto;
-    text-align: left;
-    max-width: 500px;
-    color: #ffffff;
   }
-  
-  .FRrecord-details label {
-    font-weight: bold;
-    color: #bbbbbb;
-    margin-bottom: 5px;
+
+  .FRinput-group {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  .FRrecord-details input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #444;
-    border-radius: 6px;
-    background-color: #1f1f1f;
-    color: #ffffff;
+
+  .FRrecord-card {
+    margin: 15px auto;
+    padding: 15px;
   }
-  
-  .FRrecord-details input:disabled {
-    background-color: #333;
-  }
-  
-  /* Buttons */
-  button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #3c73ff;
-  }
-  
-  button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-  }
-  
-  button:not([disabled]) {
-    background-color: #5c95ff;
-    color: #ffffff;
-  }
-  
-  button.secondary {
-    background-color: #888;
-    color: #ffffff;
-  }
-  
-  button.secondary:hover {
-    background-color: #666;
-  }
-  
-  
+}

@@ -53,7 +53,9 @@
     max-width: 500px;
     margin: 0 auto;
   }
-  
+  .announcement-form h2{
+    color: #00d9ff;
+  }
   .announcement-form label {
     display: flex;
     flex-direction: column;
@@ -74,7 +76,7 @@
     padding: 10px;
     font-size: 16px;
     color: white;
-    background-color: #007bff;
+    background-color: #00f5fd;
     border: none;
     border-radius: 4px;
     cursor: pointer;

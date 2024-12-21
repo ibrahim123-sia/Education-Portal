@@ -1,0 +1,73 @@
+.Tnavbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    background: #252526;
+    color: #ffffff;
+  }
+  
+  .Tnavbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .Tnavbar-logo img {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .Tnavbar-logo p {
+    font-size: 20px;
+    font-weight: 600;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .Tnavbar-homeButton {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    text-decoration: none;
+    font-size: 18px;
+    color: #00c3ff;
+    font-weight: 700;
+  }
+  
+  .Tnavbar-loginCart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .Tnavbar-loginCart img {
+    height: 50px;
+    width: 55px;
+  }
+  
+  .Tnavbar-loginCart p {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .Tnavbar-logoutButton {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    border-radius: 75px;
+    font-size: 14px;
+    font-weight: 500;
+    background: rgb(65, 168, 253);
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .Tnavbar-logoutButton:hover {
+    color: white;
+    background: #0d46e4;
+  }
+  

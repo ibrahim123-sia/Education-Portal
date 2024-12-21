@@ -13,8 +13,8 @@ const Footer = () => {
   <div class="footer-right">
     <p>
       <a href="/dashboard">Dashboard</a> | 
- |    <a href="/settings">Settings</a> | 
-      <a href="/reports">Reports  </a>
+    <a href="/settings"> Settings</a> | 
+      <a href="/reports"> Reports  </a>
       Need help? <a href="mailto:it.support@schoolportal.com">Contact Support</a>
     </p>
     

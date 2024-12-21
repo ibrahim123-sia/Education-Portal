@@ -6,45 +6,55 @@ import addmisionicon from "../AdminAssets/addmisionicon.png";
 import studenticon from "../AdminAssets/student.png";
 import teachericon from "../AdminAssets/teacher.png";
 import annoucement from "../AdminAssets/annoucement.png";
-import { Link } from "react-router-dom";
 import searchicon from "../AdminAssets/searchicon.png";
 import adminicon from "../AdminAssets/admin.png";
-import settingiocn from "../AdminAssets/setting.png";
+import settingicon from "../AdminAssets/setting.png";
 import revenue1 from "../AdminAssets/revenue1.png";
 import Tstudent from "../AdminAssets/Tstudent.png";
 import schedule from "../AdminAssets/schedule.png";
+import absent from "../AdminAssets/absent.png";
+import studentsabsent from "../AdminAssets/studentsabsent.png";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Admindashboard = () => {
   const [TotalStd, setTotalStd] = useState(0);
   const [FeeCollection, setFeeCollection] = useState(0);
+  const [TotalAbsentTeacher,setTotalAbsentTeacher]=useState(0)
+  const [adminData, setAdminData] = useState(null);
+  const [showOptions, setShowOptions] = useState(false);
+
+  const adminId = localStorage.getItem("adminId");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAdminData = async () => {
       try {
         const response = await axios.get("http://localhost:5000/count");
         setTotalStd(response.data.totalStudents || 0);
-        setFeeCollection(response.data.FeeCollection || 0);
+        setFeeCollection(response.data.feeCollection || 0);
+        setTotalAbsentTeacher(response.data.totalAbsentTeacher||0);
+        if (adminId) {
+          const response = await axios.get(`http://localhost:5000/Adminlogin/${adminId}`);
+          setAdminData(response.data);
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching admin data:", error);
       }
     };
 
-    fetchData();
-  }, []);
-
-
+    fetchAdminData();
+  }, [adminId]);
 
   return (
     <div className="mainDashboard">
       <div className="sider">
         <div className="DTitle">
-          <img src={education} alt="" />
+          <img src={education} alt="Education Logo" />
           <p>Education Portal</p>
         </div>
 
         <div className="option Home">
-          <Link to="/AdminDashboard" className="link">
+          <Link to="/Admindashboard" className="link">
             <img src={homeicon} alt="Home Icon" />
             <p>Home</p>
           </Link>
@@ -67,9 +77,7 @@ const Admindashboard = () => {
             <Link to="/ViewStudentRecord" className="link">
               <p>View Records</p>
             </Link>
-            <Link to="/StudentAttendences" className="link">
-              <p>View Attendences</p>
-            </Link>
+            
           </div>
         </div>
 
@@ -81,9 +89,9 @@ const Admindashboard = () => {
               <p>New Hiring</p>
             </Link>
             <Link to="/ViewFacultyRecord" className="link">
-              <p>View Records</p>{" "}
+              <p>View Records</p>
             </Link>
-            <Link to='/MarkAttendences' className="link">
+            <Link to="/MarkAttendences" className="link">
               <p>Mark Attendences</p>
             </Link>
           </div>
@@ -97,35 +105,67 @@ const Admindashboard = () => {
         </div>
 
         <div className="option Schedule">
-          <img src={schedule} alt="Faculty Icon" />
+          <img src={schedule} alt="Schedule Icon" />
           <p>Create Schedule</p>
           <div className="dropdown-content">
-            <Link to="/ExamSchedule" className="link">
-              <p>For Exams</p>
-            </Link>
-            <Link to="/ClassSchedule"  className="link">
-              <p>For Classes</p>{" "}
+            
+            <Link to="/ClassSchedule" className="link">
+              <p>For Classes</p>
             </Link>
           </div>
         </div>
 
         <div className="option setting">
-          <Link className="link">
-            <img src={settingiocn} alt="" />
-            <p>Settings</p>
+          <Link to="/" className="link">
+            <img src={settingicon} alt="Settings Icon" />
+            <p>Logout</p>
           </Link>
         </div>
       </div>
 
       <div className="Dashboard-content">
         <div className="navbarD">
-          <div class="search-container">
-            <img src={searchicon} alt="" className="search-icon" />
-            <input type="text" placeholder="Search" class="search-input" />
+          <div className="search-container">
+            <img src={searchicon} alt="Search Icon" className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="search-input"
+              onFocus={() => setShowOptions(true)}
+              onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+            />
+            {showOptions && (
+              <div className="search-options-dropdown">
+                <div
+                  className="search-option"
+                  onClick={() => (window.location.href = "/FeeCollection")}
+                >
+                  Fee Collection
+                </div>
+                <div
+                  className="search-option"
+                  onClick={() => (window.location.href = "/ViewStudentRecord")}
+                >
+                  View Student Records
+                </div>
+                <div
+                  className="search-option"
+                  onClick={() => (window.location.href = "/ViewFacultyRecord")}
+                >
+                  View Faculty Records
+                </div>
+                <div
+                  className="search-option"
+                  onClick={() => (window.location.href = "/Annoucement")}
+                >
+                  Announcements
+                </div>
+              </div>
+            )}
           </div>
           <div className="username">
-            <p></p>
-            <img src={adminicon} alt="" />
+            <p>{adminData ? adminData.AdminUserID : "Admin"}</p>
+            <img src={adminicon} alt="Admin Icon" />
           </div>
         </div>
 
@@ -133,32 +173,37 @@ const Admindashboard = () => {
           <div className="a">
             <h2 className="h2">Dashboard!!</h2>
             <div className="userphoto">
-              <img src={adminicon} alt="" />
-              <p>HEY! </p>
+              <img src={adminicon} alt="Admin Icon" />
+              <p>HEY! {adminData ? adminData.AdminUserID : "Admin"}</p>
             </div>
           </div>
         </div>
+
         <div className="Feature">
           <div className="count1">
             <div className="f student">
-              <h2>Total Registered </h2>
-              <p>students</p>
+              <h2>Total Registered</h2>
+              <p>Students</p>
               <h1 className="h1">{TotalStd}</h1>
-              <img src={Tstudent} alt="" />
+              <img src={Tstudent} alt="Total Students" />
             </div>
             <div className="f fee">
               <h2>Fee Collection</h2>
-              <p>for this month</p>
+              <p>For this Month</p>
               <h1 className="h1">{FeeCollection}</h1>
-              <img src={revenue1} alt="" />
+              <img src={revenue1} alt="Fee Collection" />
             </div>
             <div className="f sabsent">
-              <h2>No Of Student</h2>
-              <p>absent today</p>
+              <h2>No of Students</h2>
+              <p>Absent Today</p>
+              <h1 className="h1">40</h1>
+              <img src={studentsabsent} alt="Total Student Absent" />
             </div>
             <div className="f fabsent">
-              <h2>No Of Faculty</h2>
-              <p>absent today</p>
+              <h2>No of Faculty</h2>
+              <p>Absent Today</p>
+              <h1 className="h1">{TotalAbsentTeacher}</h1>
+              <img src={absent} alt="Total Absent" />
             </div>
           </div>
           <div className="graph">
@@ -168,17 +213,16 @@ const Admindashboard = () => {
           </div>
         </div>
         <div className="DFooter">
-          <div class="footer-left">
+          <div className="footer-left">
             <p>© 2024 School Management System. All rights reserved.</p>
           </div>
-          <div class="footer-center">
+          <div className="footer-center">
             <p>Last Updated: November 20, 2024 | Portal Version: 1.0.0</p>
           </div>
-          <div class="footer-right">
+          <div className="footer-right">
             <p>
-              <a href="/dashboard">Dashboard</a> |
-              <a href="/settings">Services</a> |<a href="/reports">Reports </a>
-              Need help?{"  "}
+              <a href="/dashboard">Dashboard</a> | <a href="/settings">Services</a> |{" "}
+              <a href="/reports">Reports</a> Need help?{" "}
               <a href="mailto:it.support@schoolportal.com">Contact Support</a>
             </p>
           </div>

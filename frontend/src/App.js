@@ -25,34 +25,69 @@ import TeacherDashboard from './Teacher/TeacherDashboard/TeacherDashboard';
 import ClassAttendance from './Teacher/TeacherDashboard/Features/ClassAttendance/ClassAttendance'
 import Assignment from './Teacher/TeacherDashboard/Features/Assignment/Assignment'
 
-
 function App() {
   const location = useLocation();
+  const role = localStorage.getItem("role");
 
-  const role = location.pathname.includes('Admin')
-    ? 'admin'
-    : location.pathname.includes('Teacher')
-    ? 'teacher'
-    : location.pathname.includes('Student')
-    ? 'student'
-    : null;
+  const adminRoutes = [
+    "/Admission",
+    "/AddFaculty",
+    "/FeeCollection",
+    "/ViewStudentAttendences",
+    "/ViewStudentRecord",
+    "/Annoucement",
+    "/ViewFacultyRecord",
+    "/MarkAttendences",
+    "/ClassSchedule",
+    "/ExamSchedule",
+  ];
 
+  const teacherRoutes = [
+    "/ClassAttendance",
+    "/Assignment",
+  ];
 
-  const showNavbar = role && !['/AdminLogin', '/TeacherLogin', '/StudentLogin'].includes(location.pathname);
-  const showFooter = role && !['/AdminLogin', '/TeacherLogin', '/StudentLogin'].includes(location.pathname);
+  const studentRoutes = [
+    
+  ];
+
+  const excludeNavbarRoutes = [
+    "/AdminDashboard",
+    "/TeacherDashboard",
+    "/",
+    "/AdminLogin",
+    "/TeacherLogin",
+    "/StudentLogin",
+  ];
+
+  const isAdminRoute = adminRoutes.includes(location.pathname);
+  const isTeacherRoute = teacherRoutes.includes(location.pathname);
+  const isStudentRoute = studentRoutes.includes(location.pathname);
+
+  const showNavbar =
+    role &&
+    !excludeNavbarRoutes.includes(location.pathname) &&
+    ((role === "admin" && isAdminRoute) ||
+      (role === "teacher" && isTeacherRoute) ||
+      (role === "student" && isStudentRoute));
+
+  const showFooter =
+    role &&
+    !["/AdminLogin", "/TeacherLogin", "/StudentLogin", "/"].includes(
+      location.pathname
+    );
 
   const renderNavbar = () => {
-    if (role === 'admin') return <Navbar />;
-    if (role === 'teacher') return <Tnavbar />;
-    if (role === 'student') return <Snavbar />;
+    if (role === "admin" && isAdminRoute) return <Navbar />;
+    if (role === "teacher" && isTeacherRoute) return <Tnavbar />;
+    if (role === "student" && isStudentRoute) return <Snavbar />;
     return null;
   };
 
- 
   const renderFooter = () => {
-    if (role === 'admin') return <Footer />;
-    if (role === 'teacher') return <Tfooter />;
-    if (role === 'student') return <Sfooter />;
+    if (role === "admin") return <Footer />;
+    if (role === "teacher") return <Tfooter />;
+    if (role === "student") return <Sfooter />;
     return null;
   };
 
@@ -60,13 +95,12 @@ function App() {
     <div className="App">
       {showNavbar && renderNavbar()}
       <Routes>
-       
         <Route path="/" element={<SelectUser />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/TeacherLogin" element={<TeacherLogin />} />
         <Route path="/StudentLogin" element={<StudentLogin />} />
 
-        
+        {/* Admin Routes */}
         <Route path="/AdminDashboard" element={<Admindashboard />} />
         <Route path="/Admission" element={<Admision />} />
         <Route path="/AddFaculty" element={<AddFaculty />} />
@@ -79,10 +113,12 @@ function App() {
         <Route path="/ClassSchedule" element={<ClassSchedule />} />
         <Route path="/ExamSchedule" element={<ExamSchedule />} />
 
-        
+        {/* Teacher Routes */}
         <Route path="/TeacherDashboard" element={<TeacherDashboard />} />
         <Route path="/ClassAttendance" element={<ClassAttendance />} />
         <Route path="/Assignment" element={<Assignment />} />
+
+        {/* Add Student Routes Here */}
       </Routes>
       {showFooter && renderFooter()}
     </div>

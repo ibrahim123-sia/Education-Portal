@@ -10,6 +10,7 @@ const ViewStudentRecord = () => {
   const [FilteredRecord, setFilteredRecord] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editableRecord, setEditableRecord] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false);  
 
   useEffect(() => {
     const fetchStudentRecord = async () => {
@@ -43,6 +44,7 @@ const ViewStudentRecord = () => {
         alert(`${RecordType === "student" ? "Student" : "Fee"} record not found!`);
         setFilteredRecord(null);
       }
+      setHasSearched(true); 
       setStudentID("");
       setRecordType("");
     } else {
@@ -121,111 +123,112 @@ const ViewStudentRecord = () => {
         </div>
 
         <div className="result-section">
-          {FilteredRecord ? (
-            <div className="record-card">
-              {FilteredRecord.type === "student" ? (
-                <div className="record-details">
-                  
-                  <h4>{FilteredRecord.StudentID}</h4>
-                  <label>First Name:</label>
-                  <input
-                    type="text"
-                    name="FirstName"
-                    value={editableRecord.FirstName}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Last Name:</label>
-                  <input
-                    type="text"
-                    name="LastName"
-                    value={editableRecord.LastName}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Age:</label>
-                  <input
-                    type="number"
-                    name="Age"
-                    value={editableRecord.Age}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  
-                  <label>Email:</label>
-                  <input
-                    type="email"
-                    name="Email"
-                    value={editableRecord.Email}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Gender:</label>
-                  <input
-                    type="text"
-                    name="Gender"
-                    value={editableRecord.Gender}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                </div>
-              ) : (
-                <div className="record-details">
-                  <h4>{FilteredRecord.StudentID}</h4>
-                  <label>Total Fee:</label>
-                  <input
-                    type="number"
-                    name="TotalFee"
-                    value={editableRecord.TotalFee}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Paid Amount:</label>
-                  <input
-                    type="number"
-                    name="PaidAmount"
-                    value={editableRecord.PaidAmount}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Remaining Balance:</label>
-                  <input
-                    type="number"
-                    name="RemainingBalance"
-                    value={editableRecord.RemainingBalance}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Payment Date:</label>
-                  <input
-                    type="date"
-                    name="PaymentDate"
-                    value={editableRecord.PaymentDate}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                  <label>Payment Status:</label>
-                  <input
-                    type="text"
-                    name="PaymentStatus"
-                    value={editableRecord.PaymentStatus}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                  />
-                </div>
-              )}
-
-              {isEditing ? (
-                <>
-                  <button onClick={handleSave}>Save</button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                </>
-              ) : (
-                <button onClick={handleEdit}>Edit</button>
-              )}
-            </div>
-          ) : (
+          {hasSearched && !FilteredRecord ? (
             <p>No record found. Please search for a student.</p>
+          ) : (
+            FilteredRecord && (
+              <div className="record-card">
+                {FilteredRecord.type === "student" ? (
+                  <div className="record-details">
+                    <h4>{FilteredRecord.StudentID}</h4>
+                    <label>First Name:</label>
+                    <input
+                      type="text"
+                      name="FirstName"
+                      value={editableRecord.FirstName}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Last Name:</label>
+                    <input
+                      type="text"
+                      name="LastName"
+                      value={editableRecord.LastName}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Age:</label>
+                    <input
+                      type="number"
+                      name="Age"
+                      value={editableRecord.Age}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+
+                    <label>Email:</label>
+                    <input
+                      type="email"
+                      name="Email"
+                      value={editableRecord.Email}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Gender:</label>
+                    <input
+                      type="text"
+                      name="Gender"
+                      value={editableRecord.Gender}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                ) : (
+                  <div className="record-details">
+                    <h4>{FilteredRecord.StudentID}</h4>
+                    <label>Total Fee:</label>
+                    <input
+                      type="number"
+                      name="TotalFee"
+                      value={editableRecord.TotalFee}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Paid Amount:</label>
+                    <input
+                      type="number"
+                      name="PaidAmount"
+                      value={editableRecord.PaidAmount}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Remaining Balance:</label>
+                    <input
+                      type="number"
+                      name="RemainingBalance"
+                      value={editableRecord.RemainingBalance}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Payment Date:</label>
+                    <input
+                      type="text"
+                      name="PaymentDate"
+                      value={editableRecord.PaymentDate}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                    <label>Payment Status:</label>
+                    <input
+                      type="text"
+                      name="PaymentStatus"
+                      value={editableRecord.PaymentStatus}
+                      onChange={handleChange}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                )}
+
+                {isEditing ? (
+                  <>
+                    <button onClick={handleSave}>Save</button>
+                    <button onClick={handleCancelEdit}>Cancel</button>
+                  </>
+                ) : (
+                  <button onClick={handleEdit}>Edit</button>
+                )}
+              </div>
+            )
           )}
         </div>
       </div>

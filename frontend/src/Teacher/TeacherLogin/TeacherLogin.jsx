@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 import './TeacherLogin.css';
 import teacherIcon from './teacher.png'; 
@@ -7,7 +7,7 @@ import teacherIcon from './teacher.png';
 const TeacherLogin = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,13 +27,15 @@ const TeacherLogin = () => {
                 TeacherPassword: password,
             });
     
-            // Extract teacherId from the response
+            
             const teacherId = response.data.teacherId;
     
-            // Check if teacherId exists
+            
             if (teacherId) {
-                localStorage.setItem("teacherId", teacherId); // Save to localStorage
-                window.location.href = "/TeacherDashboard";  // Navigate to dashboard
+                localStorage.setItem("teacherId", teacherId); 
+                window.location.href = "/TeacherDashboard"; 
+                alert("Login successful!");
+                localStorage.setItem('role', 'teacher'); 
             } else {
                 alert(response.data.message || "Invalid credentials");
             }
