@@ -1,0 +1,121 @@
+.CG{
+    background: #1e1e1e;
+  padding: 80px;
+  min-height: 641px;
+}
+.Grading-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Grading-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .Grading-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .Grading-select-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .Grading-select-input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    width: 200px;
+  }
+  
+  .Grading-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .Grading-table th,
+  .Grading-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .Grading-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .Grading-table td {
+    background-color: #f9f9f9;
+  }
+  
+  .Grading-input {
+    padding: 8px;
+    width: 80px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .Grading-select-assignment {
+    padding: 8px;
+    width: 120px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .Grading-save-button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .Grading-save-button:hover {
+    background-color: #45a049;
+  }
+  
+  .Grading-no-students {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: 20px;
+  }
+  
+  .Grading-assignment-name {
+    padding: 8px;
+    width: 120px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .Grading-controls .Grading-select-label {
+    margin-right: 10px;
+  }
+  

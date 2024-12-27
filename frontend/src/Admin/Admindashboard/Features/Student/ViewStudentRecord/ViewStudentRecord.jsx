@@ -16,17 +16,18 @@ const ViewStudentRecord = () => {
     const fetchStudentRecord = async () => {
       try {
         const response = await axios.get("http://localhost:5000/GetStudentRecord");
-        const StudentData = response.data.students || [];
-        const FeeData = response.data.fee || [];
+        const StudentData = response.data.Students || []; 
+        const FeeData = response.data.FeeDetails || [];  
         setAllStudentRecord(StudentData);
         setAllFeeRecord(FeeData);
       } catch (error) {
         console.error("Error fetching student records:", error);
       }
     };
-
+  
     fetchStudentRecord();
   }, []);
+  
 
   const handleSearch = () => {
     if (StudentID && RecordType) {

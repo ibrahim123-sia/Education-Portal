@@ -30,12 +30,14 @@ const ClassSchedule = () => {
       { SCID: 'MATH01', SubjectName: 'Mathematics' },
       { SCID: 'SCI01', SubjectName: 'Science' },
       { SCID: 'ISL01', SubjectName: 'Islamiat' },
+      { SCID: 'SST01', SubjectName: 'Social Studies' },
     ],
     'C2': [
       { SCID: 'ENG02', SubjectName: 'English' },
       { SCID: 'MATH02', SubjectName: 'Mathematics' },
       { SCID: 'SCI02', SubjectName: 'Science' },
       { SCID: 'ISL02', SubjectName: 'Islamiat' },
+      { SCID: 'SST02', SubjectName: 'Social Studies' },
     ],
     'C3': [
       { SCID: 'ENG03', SubjectName: 'English' },
@@ -109,30 +111,60 @@ const ClassSchedule = () => {
   };
 
   const handleSlotChange = (slotIndex, subjectID) => {
+    console.log('Slot Index:', slotIndex, 'Subject ID:', subjectID);
+  
+    
+    if (slots[slotIndex] === '--Break--') {
+      return; 
+    }
+  
+    
     const updatedSchedule = { ...schedule };
+  
     updatedSchedule[`Subject${slotIndex + 1}`] = subjectID;
     updatedSchedule[`Slot${slotIndex + 1}`] = slots[slotIndex];
+  
+    console.log('Updated Schedule:', updatedSchedule); 
+  
     setSchedule(updatedSchedule);
   };
-
+  
+  
   const handleSaveSchedule = async () => {
     if (!selectedClass) {
       alert('Please select a class.');
       return;
     }
-
+  
     if (!window.confirm('Are you sure you want to save this schedule?')) {
       return;
     }
-
+  
+    const filteredSchedule = {};
+    Object.keys(schedule).forEach((key) => {
+      if (schedule[key] !== null && schedule[key] !== '' && schedule[key] !== '--Break--') {
+        filteredSchedule[key] = schedule[key];
+      }
+    });
+  
+    console.log('Filtered Schedule before sending:', filteredSchedule);
+  
+    if (Object.keys(filteredSchedule).length === 0) {
+      alert('No valid schedule to save.');
+      return;
+    }
+  
     setLoading(true);
-
+  
     try {
       const response = await axios.post('http://localhost:5000/SaveSchedule', {
         classID: selectedClass,
-        schedule,
+        schedule: filteredSchedule,
       });
+  
       alert('Schedule saved successfully!');
+      setSelectedClass('');
+      setSchedule({});
     } catch (error) {
       console.error('Error saving schedule:', error);
       alert('Failed to save schedule.');
@@ -140,6 +172,9 @@ const ClassSchedule = () => {
       setLoading(false);
     }
   };
+  
+  
+  
 
   return (
     <div className="Cmain">

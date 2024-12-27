@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Admindashboard = () => {
+  const [AbsentCount,setAbsentCount]=useState(0);
   const [TotalStd, setTotalStd] = useState(0);
   const [FeeCollection, setFeeCollection] = useState(0);
   const [TotalAbsentTeacher,setTotalAbsentTeacher]=useState(0)
@@ -33,6 +34,7 @@ const Admindashboard = () => {
         setTotalStd(response.data.totalStudents || 0);
         setFeeCollection(response.data.feeCollection || 0);
         setTotalAbsentTeacher(response.data.totalAbsentTeacher||0);
+        setAbsentCount(response.data.StdAbsentCount || 0)
         if (adminId) {
           const response = await axios.get(`http://localhost:5000/Adminlogin/${adminId}`);
           setAdminData(response.data);
@@ -196,7 +198,7 @@ const Admindashboard = () => {
             <div className="f sabsent">
               <h2>No of Students</h2>
               <p>Absent Today</p>
-              <h1 className="h1">40</h1>
+              <h1 className="h1">{AbsentCount}</h1>
               <img src={studentsabsent} alt="Total Student Absent" />
             </div>
             <div className="f fabsent">

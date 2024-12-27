@@ -43,7 +43,7 @@ const Assignment = () => {
   
     const payload = {
       ClassID: selectedClass,
-      SCID: selectedSubject,
+      SubjectName: selectedSubject, 
       Title: title,
       Description: description,
       TeacherID: teacherId,
@@ -67,6 +67,7 @@ const Assignment = () => {
       alert("Server error. Please try again later.");
     }
   };
+  
   
 
   return (
@@ -101,7 +102,7 @@ const Assignment = () => {
           {classes.map(
             (classItem) =>
               classItem.ClassID === selectedClass && (
-                <option key={classItem.SCID} value={classItem.SCID}>
+                <option key={classItem.SubjectName} value={classItem.SubjectName}>
                   {classItem.SubjectName}
                 </option>
               )
@@ -114,7 +115,7 @@ const Assignment = () => {
         <input
           type="text"
           id="title-input"
-          placeholder="e.g., Assignment 1 or Quiz 1"
+          placeholder="e.g., Assignment 1"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />

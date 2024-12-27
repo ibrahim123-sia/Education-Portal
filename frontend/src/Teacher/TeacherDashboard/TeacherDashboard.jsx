@@ -74,13 +74,13 @@ const TeacherDashboard = () => {
           </Link>
         </div>
         <div className="TD-option TD-Announcement">
-          <Link className="TD-link">
+          <Link to='/Grading' className="TD-link">
             <img src={grading} alt="Announcement Icon" />
             <p>Grading</p>
           </Link>
         </div>
         <div className="TD-option TD-Announcement">
-          <Link className="TD-link">
+          <Link  to='/TAnnouncement'  className="TD-link">
             <img src={announcement} alt="Announcement Icon" />
             <p>Announcement</p>
           </Link>

@@ -20,10 +20,17 @@ import ClassSchedule from './Admin/Admindashboard/Features/CreateSchedule/ClassS
 import ExamSchedule from './Admin/Admindashboard/Features/CreateSchedule/ExamSchedule/ExamSchedule';
 import TeacherLogin from './Teacher/TeacherLogin/TeacherLogin';
 import AdminLogin from './Admin/AdminLogin/AdminLogin';
-import StudentLogin from './Students/StudentLogin/StudentLogin';
 import TeacherDashboard from './Teacher/TeacherDashboard/TeacherDashboard';
 import ClassAttendance from './Teacher/TeacherDashboard/Features/ClassAttendance/ClassAttendance'
 import Assignment from './Teacher/TeacherDashboard/Features/Assignment/Assignment'
+import Grading from './Teacher/TeacherDashboard/Features/Grading/Grading'
+import TAnnouncement from './Teacher/TeacherDashboard/Features/Announcement/Announcement'
+import StudentLogin from './Students/StudentLogin/StudentLogin'
+import StudentDashboard from './Students/StudentDashboard/StudentDashboard'
+import Announcements from './Students/StudentDashboard/Features/Announcements/Announcements'
+import SubmitAssignment from './Students/StudentDashboard/Features/SubmitAssignment/SubmitAssignment'
+import ViewGrades from './Students/StudentDashboard/Features/ViewGrades/ViewGrades'
+import ViewAttendance from './Students/StudentDashboard/Features/ViewAttendance/ViewAttendance'
 
 function App() {
   const location = useLocation();
@@ -45,10 +52,16 @@ function App() {
   const teacherRoutes = [
     "/ClassAttendance",
     "/Assignment",
+    "/Grading",
+    "/TAnnouncement" 
   ];
 
   const studentRoutes = [
-    
+   "/ViewAttendance",
+   "/SAnnouncements",
+   "/ViewGrades",
+   "/SubmitAssignment",
+   "/SAnnouncements" 
   ];
 
   const excludeNavbarRoutes = [
@@ -100,7 +113,7 @@ function App() {
         <Route path="/TeacherLogin" element={<TeacherLogin />} />
         <Route path="/StudentLogin" element={<StudentLogin />} />
 
-        {/* Admin Routes */}
+        
         <Route path="/AdminDashboard" element={<Admindashboard />} />
         <Route path="/Admission" element={<Admision />} />
         <Route path="/AddFaculty" element={<AddFaculty />} />
@@ -113,12 +126,20 @@ function App() {
         <Route path="/ClassSchedule" element={<ClassSchedule />} />
         <Route path="/ExamSchedule" element={<ExamSchedule />} />
 
-        {/* Teacher Routes */}
+        
         <Route path="/TeacherDashboard" element={<TeacherDashboard />} />
         <Route path="/ClassAttendance" element={<ClassAttendance />} />
         <Route path="/Assignment" element={<Assignment />} />
+        <Route path="/Grading" element={<Grading />} />
+        <Route path="/TAnnouncement" element={<TAnnouncement />} />
+      
+        <Route path="/StudentLogin" element={<StudentLogin />} />
+        <Route path="/StudentDashboard"  element={<StudentDashboard  />} />
+        <Route path="/ViewAttendance"  element={<ViewAttendance />} />
+        <Route path="/SAnnouncements"  element={<Announcements  />} />
+        <Route path="/ViewGrades"  element={<ViewGrades  />} />
+        <Route path="/SubmitAssignment"  element={<SubmitAssignment  />} />  
 
-        {/* Add Student Routes Here */}
       </Routes>
       {showFooter && renderFooter()}
     </div>

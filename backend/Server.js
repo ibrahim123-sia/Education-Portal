@@ -76,10 +76,29 @@ app.get("/Adminlogin/:adminId", async (req, res) => {
 });
 
 
+app.get("/Studentlogin/:studentId", async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    const pool = await sql.connect(config); 
+    const query = `
+      select * from StudentCredential WHERE StudentID  = '${studentId}'
+    `;
+
+    const result = await pool.request().query(query); 
+
+    if (result.recordset.length > 0) {
+      res.status(200).send(result.recordset[0]);
+    } else {
+      res.status(404).send({ message: "Student not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching student data:", error);
+    res.status(500).send("An error occurred while fetching student data.");
+  }
+});
 
 
-// New Admission
-// New Admission
+
 app.post("/Admission", async (req, res) => {
   const {
     StudentID,
@@ -263,32 +282,90 @@ app.get("/GetTeacherRecord", async (req, res) => {
   }
 });
 
+app.get("/GetGrades", async (req, res) => {
+  try {
+    const pool = await sql.connect(config);
+
+    const Grades = `
+    SELECT g.StudentID, g.ClassID, g.SCID, g.AssignmentType, g.AssignmentName, g.ObtainedMarks, g.TotalMarks, s.SubjectName
+FROM grades g 
+JOIN Subjects s ON g.SCID = s.SCID;
+  `;
+
+    const result = await pool.query(Grades);
+
+    res.status(200).send(result.recordset);
+  } catch (error) {
+    console.error("Error retrieving grades data:", error);
+    res.status(500).send("Error retrieving grades data.");
+  }
+});
+
+
+
+
 
 
 app.get("/GetStudentRecord", async (req, res) => {
   try {
-    const pool = await sql.connect(config); 
-    const request = pool.request();
+    const pool = await sql.connect(config);
 
-    
+    const CurrAttendance="select * from StudentAttendance";
+    const CA=(await pool.query(CurrAttendance)).recordset || [];
+
     const StudentQuery =
-      "SELECT StudentID, FirstName, LastName, Age, Gender, Email, Phone, DOB FROM Students";
-    const StudentQueryResult = await request.query(StudentQuery);
-
-   
-    const FeeQuery =
-      "SELECT StudentID, TotalFee, PaidAmount, RemainingBalance, PaymentDate, PaymentStatus FROM TuitionFee";
-    const FeeQueryResult = await request.query(FeeQuery);
-
-   
-    const students = StudentQueryResult.recordset || [];
-    const fee = FeeQueryResult.recordset || [];
+      "SELECT StudentID, FirstName, LastName, Gender, DOB, Email, Phone, Age FROM Students;";
+    const Students = (await pool.query(StudentQuery)).recordset || [];
 
     
-    res.status(200).send({ students, fee });
+    const FeeQuery =
+      "SELECT StudentID, TotalFee, PaidAmount, RemainingBalance, PaymentDate, PaymentStatus FROM TuitionFee;";
+    const FeeDetails = (await pool.query(FeeQuery)).recordset || [];
+
+
+    const AttendanceQuery =
+      "SELECT s.StudentID, s.FirstName, s.LastName, " +
+      "COUNT(sa.AttendanceDate) AS PreviousAbsent " +
+      "FROM Students s " +
+      "LEFT JOIN StudentAttendance sa ON s.StudentID = sa.StudentID AND sa.Status = 'Absent' " +
+      "GROUP BY s.StudentID, s.FirstName, s.LastName;";
+    const Attendance = (await pool.query(AttendanceQuery)).recordset || [];
+
+   
+    const ScheduleQuery = "SELECT * FROM ClassSchedule";
+    const Sschedule = (await pool.query(ScheduleQuery)).recordset || [];
+
+   
+    const StudentsWithAttendance = Students.map((student) => {
+      const attendance = Attendance.find((a) => a.StudentID === student.StudentID);
+      return {
+        ...student,
+        PreviousAbsent: attendance ? attendance.PreviousAbsent : 0,
+      };
+    });
+
+    
+    res.status(200).send({
+      Students: StudentsWithAttendance,
+      FeeDetails,
+      Sschedule,
+      CA,
+    });
   } catch (error) {
-    console.error("Error retrieving data", error);
+    console.error("Error retrieving data:", error);
     res.status(500).send("Error retrieving data.");
+  }
+});
+
+
+app.get('/GetAnnouncement', async (req, res) => {
+  try {
+    const pool = await sql.connect(config);
+    const GetAnn = 'SELECT * FROM Announcements';
+    const AnnResult = await pool.query(GetAnn);
+    res.status(200).send(AnnResult.recordset);
+  } catch (error) {
+    res.status(500).send({ message: 'Error fetching announcements', error });
   }
 });
 
@@ -420,10 +497,12 @@ app.get("/count", async (req, res) => {
     
     const feeQuery = `
       SELECT SUM(PaidAmount) AS 'FeeCollection'FROM TuitionFee WHERE MONTH(PaymentDate) = MONTH(GETDATE()) AND YEAR(PaymentDate) = YEAR(GETDATE())
-and PaymentStatus='Paid' or PaymentStatus='Partially Paid'`;
+      and PaymentStatus='Paid' or PaymentStatus='Partially Paid'`;
     const feeResult = await pool.request().query(feeQuery);
 
-    
+    const StdAbsent = "select count(StudentID) As TotalAbsentStudent From StudentAttendance Where Status='Absent' and MONTH(AttendanceDate) = MONTH(GETDATE()) AND YEAR(AttendanceDate) = YEAR(GETDATE()) and day(AttendanceDate)=day(GETDATE())"
+    const StdAbsentCount=(await pool.request().query(StdAbsent));
+
     const absentQuery = `
       SELECT COUNT(TeacherID) AS TotalAbsentTeacher 
       FROM TeacherAttendance 
@@ -437,9 +516,9 @@ and PaymentStatus='Paid' or PaymentStatus='Partially Paid'`;
     const totalStudents = studentResult.recordset[0]?.TotalStudents || 0;
     const feeCollection = feeResult.recordset[0]?.FeeCollection || 0;
     const totalAbsentTeacher = absentResult.recordset[0]?.TotalAbsentTeacher || 0;
-
+    const StdAbsentResult=StdAbsentCount.recordset[0]?.TotalAbsentStudent
     
-    res.status(200).send({ totalStudents, totalAbsentTeacher, feeCollection });
+    res.status(200).send({ totalStudents, totalAbsentTeacher, feeCollection,StdAbsentResult });
   } catch (error) {
     console.error("Error retrieving data:", error);
     res.status(500).send("Error retrieving data.");
@@ -468,6 +547,34 @@ app.post("/Announcements", async (req, res) => {
     res
       .status(500)
       .send({ error: "Failed to add announcement.", details: error.message });
+  }
+});
+
+app.post("/StudentLogin", async (req, res) => {
+  const { StudentID, StudentPassword } = req.body;
+
+  try {
+      const pool = await sql.connect(config);
+
+      const query = `
+        SELECT * FROM StudentCredential
+        WHERE StudentID = '${StudentID}' AND Password = '${StudentPassword}'
+      `;
+
+      const result = await pool.query(query);
+
+      if (result.recordset.length > 0) {
+          const studentData = result.recordset[0];
+          res.status(200).send({
+              message: "Login successful",
+              studentId: studentData.StudentID,
+          });
+      } else {
+          res.status(401).send({ message: "Invalid StudentID or StudentPassword" });
+      }
+  } catch (error) {
+      console.error("Error during login:", error);
+      res.status(500).send("An error occurred during login.");
   }
 });
 
@@ -521,11 +628,12 @@ app.get('/GetClasses', async (req, res) => {
 });
 
 
-
 app.post('/SaveSchedule', async (req, res) => {
   const { classID, schedule } = req.body;
 
   
+  console.log('Incoming Schedule from Frontend:', schedule);
+
   if (!classID || !schedule || Object.keys(schedule).length === 0) {
     return res
       .status(400)
@@ -552,6 +660,7 @@ app.post('/SaveSchedule', async (req, res) => {
     res.status(500).json({ error: 'Failed to save schedule.', details: err.message });
   }
 });
+
 
 
 
@@ -678,7 +787,7 @@ app.post("/SaveStudentAttendance", async (req, res) => {
 
 app.post("/SaveAssignment", async (req, res) => {
   try {
-    const { ClassID, Title, Description, TeacherID, SubjectName, DueDate } = req.body;
+    const { ClassID,  SubjectName,Title, Description, TeacherID, DueDate } = req.body;
 
     
     if (!ClassID || !Title || !Description || !TeacherID || !SubjectName || !DueDate) {
@@ -714,4 +823,155 @@ app.post("/SaveAssignment", async (req, res) => {
     res.status(500).send("Error saving assignment.");
   }
 });
+
+app.post("/SaveStudentGrade", async (req, res) => {
+  try {
+    const { StudentID, ClassID,SubjectName, AssignmentType, AssignmentName, ObtainedMarks, TotalMarks } = req.body;
+
+    if (!StudentID || !ClassID || !SubjectName || !AssignmentType || !AssignmentName || !ObtainedMarks || !TotalMarks) {
+      return res.status(400).send("All fields are required.");
+    }
+
+   
+    console.log("Received Data:", req.body);
+
+    const pool = await sql.connect(config);
+
+    
+    const subjectQuery = `
+      SELECT SCID 
+      FROM Subjects 
+      WHERE SubjectName = '${SubjectName}';
+    `;
+    const subjectResult = await pool.query(subjectQuery);
+    if (subjectResult.recordset.length === 0) {
+      return res.status(404).send("Subject not found for the provided SubjectName.");
+    }
+
+    const SCID = subjectResult.recordset[0].SCID;
+
+    
+    const query = `
+      INSERT INTO grades (StudentID, ClassID, SCID, AssignmentType, AssignmentName, ObtainedMarks, TotalMarks)
+      VALUES ('${StudentID}', '${ClassID}', '${SCID}', '${AssignmentType}', '${AssignmentName}', ${ObtainedMarks}, ${TotalMarks});
+    `;
+
+    console.log("Executing SQL Query:", query);  
+
+    await pool.query(query);
+    res.status(200).send("Grade saved successfully.");
+  } catch (error) {
+    console.error("Error saving grade:", error);
+    res.status(500).send("Error saving grade.");
+  }
+});
+
+
+app.get("/GetAssignments/:studentId", async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    const pool = await sql.connect(config);
+
+    const pendingQuery = `
+      SELECT a.AssignmentID, a.Title, a.Description, sub.SubjectName, a.DueDate
+      FROM CreateAssignment a
+      JOIN Student_Subjects s ON a.SCID = s.SCID
+      JOIN Classes c ON a.ClassID = c.ClassID
+      JOIN Subjects sub ON sub.SCID = a.SCID
+      WHERE c.ClassName = (
+        SELECT Class FROM Admissions WHERE StudentID = '${studentId}'
+      ) AND NOT EXISTS (
+        SELECT 1 FROM Submissions WHERE Submissions.AssignmentID = a.AssignmentID AND Submissions.StudentID = '${studentId}'
+      )
+    `;
+
+    const submittedQuery = `
+      SELECT s.AssignmentID, a.Title, a.Description, sub.SubjectName, a.DueDate, s.FileLink, s.SubmittedDate
+      FROM Submissions s
+      JOIN CreateAssignment a ON s.AssignmentID = a.AssignmentID
+      JOIN Subjects sub ON a.SCID = sub.SCID
+      WHERE s.StudentID = '${studentId}'
+    `;
+
+    const pendingAssignments = (await pool.query(pendingQuery)).recordset;
+    const submittedAssignments = (await pool.query(submittedQuery)).recordset;
+
+    res.status(200).send({
+      pendingAssignments,
+      submittedAssignments,
+    });
+  } catch (error) {
+    console.error("Error retrieving assignments:", error);
+    res.status(500).send("Error retrieving assignments.");
+  }
+});
+
+
+
+app.post("/SaveSubmission", async (req, res) => {
+  const { assignmentID, studentID, filePath, title } = req.body;
+  if (!assignmentID || !studentID || !filePath || !title) {
+      return res.status(400).json({ error: "Invalid input: All fields are required." });
+  }
+
+  try {
+      const pool = await sql.connect(config);
+
+      await pool.query(`
+          INSERT INTO Submissions (AssignmentID, StudentID, Title,FileLink, SubmittedDate)
+          VALUES ('${assignmentID}', '${studentID}', '${title}','${filePath}', GETDATE())
+      `);
+
+      res.status(200).send("Assignment submitted successfully.");
+  } catch (error) {
+      console.error("Error saving submission:", error);
+      res.status(500).send("Error saving submission.");
+  }
+});
+
+app.get("/ClassSchedule/:studentId", async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    console.log("Received studentId:", studentId);
+
+    const pool = await sql.connect(config);
+
+    const ClassSchedule = `
+      SELECT 
+        cs.ClassID, 
+        cs.Subject1, cs.Slot1, 
+        cs.Subject2, cs.Slot2, 
+        cs.Subject3, cs.Slot3, 
+        cs.Subject4, cs.Slot4, 
+        cs.Subject5, cs.Slot5, 
+        cs.Subject6, cs.Slot6 
+      FROM ClassSchedule cs
+      WHERE cs.ClassID = (
+        SELECT c.ClassID 
+        FROM Classes c
+        INNER JOIN Admissions a ON a.Class = c.ClassName
+        WHERE a.StudentID = @studentId
+      )
+    `;
+
+    console.log("Generated SQL Query:", ClassSchedule);
+
+    const scheduleResult = await pool.request()
+      .input('studentId', sql.VarChar, studentId)
+      .query(ClassSchedule);
+
+    console.log("Class Schedule Data:", scheduleResult.recordset);
+
+    if (scheduleResult.recordset.length === 0) {
+      return res.status(404).send({ message: "Class schedule not found for the given student ID." });
+    }
+
+    res.status(200).send(scheduleResult.recordset);
+  } catch (error) {
+    console.error("Error retrieving schedule:", error);
+    res.status(500).send("Error retrieving schedule.");
+  }
+});
+
+
 

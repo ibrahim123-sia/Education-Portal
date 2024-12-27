@@ -1,13 +1,13 @@
+import "./StudentLogin.css";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './StudentLogin.css'; 
-import studentIcon from './student.png'; 
+import studentIcon from './student.png';
 
 const StudentLogin = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,23 +27,27 @@ const StudentLogin = () => {
                 StudentPassword: password,
             });
 
-            if (response.data && response.data.message === "Login successful") {
+            const studentId = response.data.studentId;
+
+            if (studentId) {
+                localStorage.setItem("studentId", studentId);
                 alert("Login successful!");
-                navigate('/StudentDashboard');
+                localStorage.setItem('role', 'student');
+                navigate("/StudentDashboard");
             } else {
-                alert("Invalid credentials");
+                alert(response.data.message || "Invalid credentials");
             }
         } catch (error) {
             console.error("Error logging in", error);
-            alert("An error occurred during login");
-        } 
+            alert("An error occurred during login. Please try again later.");
+        }
     };
 
     return (
-        <div className="Studentmain">
-            <div className="Studentsubmain">
+        <div className="Adminmain">
+            <div className="Adminsubmain">
                 <form onSubmit={handleLogin}>
-                    <div className="StudentTitle">
+                    <div className="AdminTitle">
                         <img src={studentIcon} alt="Student Icon" />
                         <h2>Student Login</h2>
                     </div>
@@ -65,7 +69,9 @@ const StudentLogin = () => {
                             onChange={handleChange}
                         />
                         <button type="submit">LOGIN</button>
-                        <p className='p'>Forgot password? Contact <a href="mailto:support@spa.com">support@spa.com</a></p>
+                        <p className="HelpText">
+                            Forgot password? Contact <a href="mailto:support@spa.com">support@spa.com</a>
+                        </p>
                     </div>
                 </form>
             </div>

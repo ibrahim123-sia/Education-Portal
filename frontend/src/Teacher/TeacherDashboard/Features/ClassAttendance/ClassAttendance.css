@@ -1,6 +1,7 @@
 .CAmain{
     background: #1e1e1e;
   padding: 80px;
+  min-height: 641px;
 }
 .CA-container {
     font-family: Arial, sans-serif;

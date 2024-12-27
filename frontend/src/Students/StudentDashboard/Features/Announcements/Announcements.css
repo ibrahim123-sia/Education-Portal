@@ -1,0 +1,69 @@
+
+.TA {
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  padding: 50px;
+  min-height: 640px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.announcement-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.6);
+  width: 80%;
+  max-width: 800px;
+}
+
+
+.announcement-card {
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: #252525;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.announcement-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+
+.announcement-card h3 {
+  margin: 0 0 1rem;
+  color: #32bff7;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #32bff7;
+  padding-bottom: 0.5rem;
+}
+
+
+.announcement-card p {
+  margin: 0;
+  color: #d4d4d4;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+
+.announcement-card strong {
+  color: #32bff7;
+  font-weight: bold;
+}
+
+
+.announcement-container p {
+  color: #aaaaaa;
+  font-style: italic;
+  text-align: center;
+}

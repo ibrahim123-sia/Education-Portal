@@ -1,0 +1,278 @@
+.SD-mainDashboard {
+    display: flex;
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.SD-sider {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    height: 100vh;
+    width: 250px;
+    background: #252526;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    border-radius: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.SD-Dashboard-content {
+    width: calc(100% - 250px);
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+    gap: 30px;
+    height: 1000px;
+}
+
+.SD-DTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SD-navbarD {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    background: #252526;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    margin-top: 5px;
+    width: calc(100% - 250px);
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    left: 252px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.SD-search-container {
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    background-color: transparent;
+    display: flex;
+    gap: 5px;
+}
+
+.SD-navimg {
+    width: 20px;
+    height: 20px;
+}
+
+.SD-usernav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.SD-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.SD-welcome {
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    width: 99.8%;
+    background: #252526;
+    height: 200px;
+    margin-left: 252px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+    align-items: start;
+    
+}
+
+.SD-a {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 50px;
+}
+
+.SD-h2 {
+    margin-left: 15px;
+}
+
+.SD-userphoto {
+    display: flex;
+    align-items: center;
+}
+
+.SD-userphoto img {
+    width: 100px;
+    height: 100px;
+}
+
+.SD-userphoto p {
+    font-size: 24px;
+}
+
+.SD-search-input {
+    width: 100%;
+    padding: 5px 70px 5px 5px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: transparent;
+    color: #e0e0e0;
+    outline: none;
+}
+
+.SD-search-input:focus {
+    border-color: rgb(0, 0, 100);
+}
+
+.SD-search-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.SD-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    color: #e0e0e0;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.SD-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.SD-link img {
+    margin-right: 12px;
+}
+
+.SD-option img {
+    width: 25px;
+    height: 25px;
+}
+
+.SD-option:hover {
+    background: #47b6ff;
+}
+
+.SD-username p {
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 0px;
+}
+
+.SD-Feature {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(255, 255, 255, 0.1);
+    width: 99.8%;
+    background: #252526;
+    margin-left: 252px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.SD-StudentSchedule {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.SD-StudentSchedule h2 {
+    margin-bottom: 10px;
+    color: wheat;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.SD-schedule-table {
+    width: 100%; 
+    border-collapse: collapse;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #252526;
+}
+
+.SD-schedule-table th,
+.SD-schedule-table td {
+    border: 1px solid #3e3e3e;
+    padding: 10px;
+}
+
+.SD-schedule-table th {
+    background-color: #2d2d30;
+    color: #e0e0e0;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.SD-schedule-table tr:nth-child(even) {
+    background-color: #1e1e1e;
+}
+
+.SD-schedule-table tr:nth-child(odd) {
+    background-color: #252526;
+}
+
+.SD-schedule-table tr:hover {
+    background-color: #474747;
+    transition: background-color 0.3s ease;
+}
+
+.SD-schedule-table td {
+    font-size: 14px;
+    color: #cfcfcf;
+}
+
+
+.SD-search-container {
+    position: relative;
+}
+
+.SD-search-options-dropdown {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 4px;
+}
+
+.SD-search-option {
+    padding: 10px;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.SD-search-option:last-child {
+    border-bottom: none;
+}
+
+.SD-search-option:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}

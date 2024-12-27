@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./AddFaculty.css";
 import axios from "axios";
 import Popup from "reactjs-popup";
+
 const AddFaculty = () => {
   const [TeacherID, setTeacherID] = useState("");
-  const [TeacherPassword,setTeacherPassword]=useState('')
+  const [TeacherPassword, setTeacherPassword] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [Gender, setGender] = useState("");
@@ -33,6 +34,7 @@ const AddFaculty = () => {
     "Gilgit-Baltistan",
     "Azad Jammu and Kashmir",
   ];
+
   const cities = {
     Punjab: ["Lahore", "Faisalabad", "Rawalpindi", "Multan"],
     Sindh: ["Karachi", "Hyderabad", "Sukkur"],
@@ -41,8 +43,6 @@ const AddFaculty = () => {
     "Gilgit-Baltistan": ["Gilgit", "Skardu"],
     "Azad Jammu and Kashmir": ["Muzaffarabad", "Mirpur"],
   };
-
-  
 
   const handleSubject = () => {
     switch (Degree) {
@@ -118,30 +118,40 @@ const AddFaculty = () => {
 
   useEffect(() => {
     const savedCount = localStorage.getItem("TeacherCount");
-    if (!savedCount) {
-      localStorage.setItem("TeacherCount", 1);
-    } else {
-      setTeacherCount(parseInt(savedCount, 10));
-    }
+    setTeacherCount(savedCount ? parseInt(savedCount, 10) : 1); 
   }, []);
 
+ 
   useEffect(() => {
     localStorage.setItem("TeacherCount", TeacherCount);
   }, [TeacherCount]);
 
+ 
   useEffect(() => {
     handleSubject();
   }, [Degree]);
 
+ 
+  const generateTeacherID = () => {
+    const uniqueNumber = TeacherCount.toString().padStart(3, "0");
+    const teacherID = `T${uniqueNumber}-${SubjectID}`;
+    setTeacherCount((prevCount) => {
+      const newCount = prevCount + 1;
+      localStorage.setItem("TeacherCount", newCount); 
+      return newCount;
+    });
+    setTeacherID(teacherID);
+    return teacherID;
+  };
   const generatePassword = () => {
     const chars = {
       upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
       lowerCase: "abcdefghijklmnopqrstuvwxyz",
-      numbers: "0123456789"
+      numbers: "0123456789",
     };
-    
+
     let password = "";
-  
+
     const getRandomChars = (source, count) => {
       let result = "";
       for (let i = 0; i < count; i++) {
@@ -155,23 +165,17 @@ const AddFaculty = () => {
     password += getRandomChars(chars.numbers, 2);
 
     password = password.split("").sort(() => Math.random() - 0.5).join("");
-  
+
     return password;
   };
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const uniqueNumber = TeacherCount.toString().padStart(3, "0");
-    const generatedID = `T${uniqueNumber}-${SubjectID}`;
     const generatedPassword = generatePassword();
     setTeacherPassword(generatedPassword);
-    setTeacherID(generatedID);
+    const generatedID = generateTeacherID();
 
-    const newCount = TeacherCount + 1;
-    localStorage.setItem("TeacherCount", newCount);
-    setTeacherCount(newCount);
+    
 
     if (!FirstName.match(/^[A-Za-z]+$/)) {
       alert("First Name should only contain alphabets.");
@@ -211,7 +215,25 @@ const AddFaculty = () => {
 
       alert("Faculty Added Successfully");
       setIsOpen(true);
-      
+      setTeacherID("");
+    setTeacherPassword("");
+    setFirstName("");
+    setLastName("");
+    setGender("");
+    setDOB("");
+    setEmail("");
+    setPhone("");
+    setCNIC("");
+    setCity("");
+    setState("");
+    setPostalCode("");
+    setAddressType("");
+    setHouseNo("");
+    setDegree("");
+    setInstitution("");
+    setDateCompleted("");
+    setSubjectID("");
+    setSubjectName("");
     } catch (error) {
       console.error("Error during form submission:", error);
     }

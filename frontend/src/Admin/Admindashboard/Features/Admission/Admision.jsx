@@ -3,6 +3,7 @@ import "./Admission.css";
 import axios from "axios";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import StarsGif from './StarsGif.gif'
 
 const Admission = () => {
   const [StudentID, setStudentID] = useState("");
@@ -26,28 +27,28 @@ const Admission = () => {
   const [studentCount, setStudentCount] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
+  
   useEffect(() => {
     const savedCount = localStorage.getItem("studentCount");
-    if (savedCount) {
-      setStudentCount(parseInt(savedCount, 10));
-    } else {
-      setStudentCount(1);
-      localStorage.setItem("studentCount", 1);
-    }
+    setStudentCount(savedCount ? parseInt(savedCount, 10) : 1);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("studentCount", studentCount);
-  }, [studentCount]);
-
+  
   const generateStudentID = () => {
     const uniqueNumber = studentCount.toString().padStart(4, "0");
     const studentID = `C${Class}-${Section}-${uniqueNumber}`;
 
+    
+    setStudentCount((prevCount) => {
+      const newCount = prevCount + 1;
+      localStorage.setItem("studentCount", newCount); 
+      return newCount;
+    });
+
     setStudentID(studentID);
-    setStudentCount((prevCount) => prevCount + 1);
     return studentID;
   };
+
 
   const generatePassword = () => {
     const chars = {
@@ -75,6 +76,7 @@ const Admission = () => {
     setStudentPassword(password);
     return password;
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -129,6 +131,7 @@ const Admission = () => {
     }
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const generatedStudentID = generateStudentID();
@@ -206,8 +209,6 @@ const Admission = () => {
 
   return (
     <div className="StudentRegistration">
-
-
       <form onSubmit={handleSubmit} className="Form">
         <h1 className="std">Student Registration</h1>
 
@@ -399,9 +400,10 @@ const Admission = () => {
         onClose={() => setIsOpen(false)}
       >
         <div className="popup-content">
+          <img src={StarsGif} alt="" className="StarsGif"/>
           <h2>ID: {StudentID}</h2>
           <h3>Password: {StudentPassword}</h3>
-          <p>Successfully Registered!</p>
+          <p >Successfully Registered!</p>
           <button onClick={() => setIsOpen(false)}>Close</button>
         </div>
       </Popup>

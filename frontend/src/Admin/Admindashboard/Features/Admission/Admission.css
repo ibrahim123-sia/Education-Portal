@@ -83,7 +83,9 @@
   background-color: #388e3c;
 }
 
-
+.StarsGif{
+  height: 450px;
+}
 .custom-popup {
   background-color: #2b2b2b;
   border-radius: 10px;
