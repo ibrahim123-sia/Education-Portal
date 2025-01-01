@@ -1,34 +1,28 @@
 create database EducationSystem 
+
+select * from AuditLog
 select * from AdminLogin
 select * from Announcements
+select * from Teachers
 select * from TeacherCredential
 select * from TeacherAttendance
-select * from Admissions
 select * from Teacher_Subjects
-delete from Teachers
-select * from Teachers
-select * from Students
-select * from TuitionFee
-select * from AdminLogin
-select * from AuditLog
-select * from Student_Subjects
-select * from Students
-select * from Addresses
-select * from StudentCredential
+select * from TeacherAddresses
 select * from TeacherSchedule
-select * from Submissions 
-select * from StudentAttendance
 select * from grades
 select * from CreateAssignment
-select * from Announcements   
-select * from Teacher_Subjects
-select * from Teachers
-select * from TeacherCredential
-select * from Qualifications
-select * from TeacherSchedule
-select * from Subjects where ClassID='C4'
-select * from TeacherAttendance
-select * from ClassSchedule where ClassID
+select * from Students
+select * from TuitionFee
+select * from Admissions
+select * from Student_Subjects
+select * from Addresses
+select * from StudentCredential
+select * from Submissions 
+select * from StudentAttendance
+select * from ClassSchedule
+select * from Classes
+select * from Subjects
+
 CREATE TABLE grades (
     GradeID INT IDENTITY(1,1) PRIMARY KEY,
     StudentID VARCHAR(50) FOREIGN KEY REFERENCES students(StudentID),
@@ -397,7 +391,7 @@ select * from Students
 
 select * from Subjects
 
-
+PROCEDURES
 
 CREATE PROCEDURE AddAdmissionRecord
     @StudentID VARCHAR(50),
@@ -473,7 +467,7 @@ CREATE PROCEDURE AssignSubjectsToStudent
     @Class VARCHAR(50)
 AS
 BEGIN
-    BEGIN TRY
+    
         BEGIN TRANSACTION;
 
         
@@ -505,14 +499,7 @@ BEGIN
         PRINT 'Subjects assigned successfully.';
 
         COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-
-        PRINT 'Error occurred: ' + ERROR_MESSAGE();
-        THROW;
-    END CATCH;
+    
 END;
 
 

@@ -76,29 +76,6 @@ app.get("/Adminlogin/:adminId", async (req, res) => {
 });
 
 
-app.get("/Studentlogin/:studentId", async (req, res) => {
-  const { studentId } = req.params;
-  try {
-    const pool = await sql.connect(config); 
-    const query = `
-      select * from StudentCredential WHERE StudentID  = '${studentId}'
-    `;
-
-    const result = await pool.request().query(query); 
-
-    if (result.recordset.length > 0) {
-      res.status(200).send(result.recordset[0]);
-    } else {
-      res.status(404).send({ message: "Student not found" });
-    }
-  } catch (error) {
-    console.error("Error fetching student data:", error);
-    res.status(500).send("An error occurred while fetching student data.");
-  }
-});
-
-
-
 app.post("/Admission", async (req, res) => {
   const {
     StudentID,
@@ -124,7 +101,7 @@ app.post("/Admission", async (req, res) => {
   try {
     const pool = await sql.connect(config);
 
-    // Insert admission record
+    
     await pool.query(`
       EXEC AddAdmissionRecord 
         '${StudentID}', 
@@ -162,6 +139,31 @@ app.post("/Admission", async (req, res) => {
     res.status(500).send({ message: "Error processing admission.", details: error.message });
   }
 });
+
+
+app.get("/Studentlogin/:studentId", async (req, res) => {
+  const { studentId } = req.params;
+  try {
+    const pool = await sql.connect(config); 
+    const query = `
+      select * from StudentCredential WHERE StudentID  = '${studentId}'
+    `;
+
+    const result = await pool.request().query(query); 
+
+    if (result.recordset.length > 0) {
+      res.status(200).send(result.recordset[0]);
+    } else {
+      res.status(404).send({ message: "Student not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching student data:", error);
+    res.status(500).send("An error occurred while fetching student data.");
+  }
+});
+
+
+
 
 
 

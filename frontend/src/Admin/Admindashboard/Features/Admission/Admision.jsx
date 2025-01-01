@@ -400,7 +400,7 @@ const Admission = () => {
         onClose={() => setIsOpen(false)}
       >
         <div className="popup-content">
-          <img src={StarsGif} alt="" className="StarsGif"/>
+         
           <h2>ID: {StudentID}</h2>
           <h3>Password: {StudentPassword}</h3>
           <p >Successfully Registered!</p>

@@ -7,24 +7,25 @@ import mteacher from './mteacher.png';
 import { useState, useEffect } from 'react';
 
 const Tnavbar = () => {
-  const [teacherGender, setTeachergender] = useState({});
-  const [TeacherData, setTeacherData] = useState(null);
+  const [teacherData, setTeacherData] = useState(null);
+  const [teacherRecord, setTeacherRecord] = useState({});
   const teacherId = localStorage.getItem("teacherId");
 
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
         if (teacherId) {
-          const response = await axios.get(`http://localhost:5000/TeacherLogin/${teacherId}`);
-          setTeacherData(response.data);
-          const gender = await axios.get("http://localhost:5000/GetTeacherRecord");
-        const Teachers= response.data;
-        const teacher = Teachers.find((t) => t.TeacherID === teacherId);
-        setTeachergender(teacher || {});
+          const teacherResponse = await axios.get(`http://localhost:5000/TeacherLogin/${teacherId}`);
+          setTeacherData(teacherResponse.data);
+
+          const recordResponse = await axios.get("http://localhost:5000/GetTeacherRecord");
+          const { Teachers } = recordResponse.data;
+          const teacher = Teachers.find((t) => t.TeacherID === teacherId);
+          setTeacherRecord(teacher || {});
+        } else {
+          alert("No teacher ID found. Please log in again.");
         }
-        
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching teacher data:", error);
       }
     };
@@ -42,11 +43,17 @@ const Tnavbar = () => {
         Home
       </Link>
       <div className="Tnavbar-loginCart">
-        <img
-                        src={teacherGender.Gender === "Male" ? mteacher : fteacher}
-                        alt="Teacher Icon"
-                      />
-        <p>{TeacherData ? TeacherData.TeacherUserID : "Teacher"}</p>
+        {teacherData && teacherRecord ? (
+          <>
+            <img
+              src={teacherRecord.Gender === "Male" ? mteacher : fteacher}
+              alt="Teacher Icon"
+            />
+            <p>{teacherData?.TeacherUserID || "Guest"} {teacherData?.LastName || ""}</p>
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
         <Link to="/">
           <button className="Tnavbar-logoutButton">Logout</button>
         </Link>

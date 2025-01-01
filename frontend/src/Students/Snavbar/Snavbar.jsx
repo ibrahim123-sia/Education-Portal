@@ -15,11 +15,11 @@ const Snavbar = () => {
     const fetchStudentData = async () => {
       try {
         if (studentId) {
-          // Fetch student data by ID
+          
           const studentResponse = await axios.get(`http://localhost:5000/StudentLogin/${studentId}`);
           setStudentData(studentResponse.data);
 
-          // Fetch all student records to get gender
+          
           const response = await axios.get("http://localhost:5000/GetStudentRecord");
           const { Students, Sschedule } = response.data;
           const studentRecord =Students.find((s) => s.StudentID === studentId);

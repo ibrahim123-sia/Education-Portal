@@ -116,33 +116,33 @@ const AddFaculty = () => {
     }
   };
 
-  useEffect(() => {
-    const savedCount = localStorage.getItem("TeacherCount");
-    setTeacherCount(savedCount ? parseInt(savedCount, 10) : 1); 
-  }, []);
+  // Initialize TeacherCount from localStorage when the component mounts
+useEffect(() => {
+  const savedCount = localStorage.getItem("TeacherCount");
+  setTeacherCount(savedCount ? parseInt(savedCount, 10) : 1);
+}, []);
+
+const generateTeacherID = () => {
+  
+  const uniqueNumber = TeacherCount.toString().padStart(3, "0");
+  const teacherID = `T${uniqueNumber}-${SubjectID}`;
 
  
-  useEffect(() => {
-    localStorage.setItem("TeacherCount", TeacherCount);
-  }, [TeacherCount]);
+  setTeacherCount((prevCount) => {
+    const newCount = prevCount + 1;
+    localStorage.setItem("TeacherCount", newCount);
+    return newCount;
+  });
 
- 
+  setTeacherID(teacherID);
+  return teacherID;
+};
+
+
   useEffect(() => {
     handleSubject();
   }, [Degree]);
 
- 
-  const generateTeacherID = () => {
-    const uniqueNumber = TeacherCount.toString().padStart(3, "0");
-    const teacherID = `T${uniqueNumber}-${SubjectID}`;
-    setTeacherCount((prevCount) => {
-      const newCount = prevCount + 1;
-      localStorage.setItem("TeacherCount", newCount); 
-      return newCount;
-    });
-    setTeacherID(teacherID);
-    return teacherID;
-  };
   const generatePassword = () => {
     const chars = {
       upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -172,11 +172,12 @@ const AddFaculty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const generatedPassword = generatePassword();
-    setTeacherPassword(generatedPassword);
     const generatedID = generateTeacherID();
-
-    
-
+  
+    setTeacherPassword(generatedPassword);
+    setTeacherID(generatedID);
+  
+   
     if (!FirstName.match(/^[A-Za-z]+$/)) {
       alert("First Name should only contain alphabets.");
       return;
@@ -189,9 +190,9 @@ const AddFaculty = () => {
       alert("Please enter a valid email address.");
       return;
     }
-
+  
     try {
-      const response = await axios.post("http://localhost:5000/AddFaculty", {
+      await axios.post("http://localhost:5000/AddFaculty", {
         TeacherID: generatedID,
         TeacherPassword: generatedPassword,
         FirstName,
@@ -212,32 +213,34 @@ const AddFaculty = () => {
         SubjectID,
         SubjectName,
       });
-
+  
       alert("Faculty Added Successfully");
+  
+      
       setIsOpen(true);
-      setTeacherID("");
-    setTeacherPassword("");
-    setFirstName("");
-    setLastName("");
-    setGender("");
-    setDOB("");
-    setEmail("");
-    setPhone("");
-    setCNIC("");
-    setCity("");
-    setState("");
-    setPostalCode("");
-    setAddressType("");
-    setHouseNo("");
-    setDegree("");
-    setInstitution("");
-    setDateCompleted("");
-    setSubjectID("");
-    setSubjectName("");
+  
+      setFirstName("");
+      setLastName("");
+      setGender("");
+      setDOB("");
+      setEmail("");
+      setPhone("");
+      setCNIC("");
+      setCity("");
+      setState("");
+      setPostalCode("");
+      setAddressType("");
+      setHouseNo("");
+      setDegree("");
+      setInstitution("");
+      setDateCompleted("");
+      setSubjectID("");
+      setSubjectName("");
     } catch (error) {
       console.error("Error during form submission:", error);
     }
   };
+  
 
   return (
     <div className="StudentRegistration">

@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 import './App.css';
+import loading from './loading.gif'
 import SelectUser from './SelectUser/SelectUser';
 import Admindashboard from './Admin/Admindashboard/Admindashboard';
 import Admision from './Admin/Admindashboard/Features/Admission/Admision';
@@ -35,6 +37,13 @@ import ViewAttendance from './Students/StudentDashboard/Features/ViewAttendance/
 function App() {
   const location = useLocation();
   const role = localStorage.getItem("role");
+  const [isLoading, setIsLoading] = useState(true);
+
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000); // Adjust the timeout as needed
+    return () => clearTimeout(timer);
+  }, []);
 
   const adminRoutes = [
     "/Admission",
@@ -104,6 +113,18 @@ function App() {
     return null;
   };
 
+  if (isLoading) {
+    return (
+      <div style={loadingContainerStyle}>
+        <img 
+          src={loading}
+          alt="Loading..." 
+          style={gifStyle} 
+        />
+      </div>
+    );
+  }
+  
   return (
     <div className="App">
       {showNavbar && renderNavbar()}
@@ -145,6 +166,18 @@ function App() {
     </div>
   );
 }
+const gifStyle = {
+  width: '100px',
+  height: '100px',
+};
+
+const loadingContainerStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh', 
+};
+
 
 const AppWrapper = () => (
   <BrowserRouter>
