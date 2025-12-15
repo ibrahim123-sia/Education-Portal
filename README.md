@@ -38,7 +38,4 @@ It provides separate logins for **Admin**, **Teacher**, and **Student**, with ta
 - Express.js  
 
 **Database:**
-- MongoDB (Mongoose ORM)
-
-   git clone https://github.com/<your-username>/education-portal.git
-   cd education-portal
+- MSSQL  
