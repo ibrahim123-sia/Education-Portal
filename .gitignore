@@ -1,0 +1,85 @@
+# --- Dependencies ---
+node_modules/
+**/node_modules/
+.pnpm-store/
+.yarn/cache/
+.yarn/install-state.gz
+
+# --- Environment & secrets ---
+.env
+.env.local
+.env.*.local
+.env.production
+**/.env
+**/.env.local
+**/.env.*.local
+*.pem
+*.key
+*.crt
+*-secret*
+*-credentials*
+secrets/
+.config/
+
+# --- Build outputs ---
+dist/
+build/
+.next/
+out/
+.vite/
+.cache/
+coverage/
+.nyc_output/
+
+# --- Logs ---
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Uploads / runtime data ---
+backend-v2/uploads/*
+!backend-v2/uploads/.gitkeep
+backend/uploads/*
+backend/.tmp/
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Test artefacts ---
+.vitest-cache/
+junit.xml
+
+# --- IDE / editor ---
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- OS ---
+$RECYCLE.BIN/
+ehthumbs.db
+
+# --- Misc ---
+*.tsbuildinfo
+.eslintcache
+.parcel-cache/
+.turbo/
+.tool-versions
+
+# --- Legacy project artefacts (already tracked, but keep new dumps out) ---
+migration-bundle/
+migration-bundle.zip
+Database Backup/
+*.bak
+
+# portfolio screenshot gallery (kept locally, not committed)
+screenshots/
